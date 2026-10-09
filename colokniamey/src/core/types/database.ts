@@ -721,6 +721,92 @@ export type Database = {
           },
         ]
       }
+      verifications_identite: {
+        Row: {
+          chemin_recto: string | null
+          chemin_selfie: string | null
+          chemin_verso: string | null
+          code_selfie: string
+          consentement_le: string | null
+          created_at: string
+          decide_le: string | null
+          decide_par: string | null
+          empreinte_avatar_verifie: string | null
+          empreinte_recto: string | null
+          empreinte_selfie: string | null
+          empreinte_verso: string | null
+          id: string
+          images_effacees_le: string | null
+          motif_refus: string | null
+          nom_verifie: string | null
+          prenom_verifie: string | null
+          soumis_le: string | null
+          statut: Database["public"]["Enums"]["statut_kyc"]
+          suspect: boolean
+          type_piece: Database["public"]["Enums"]["type_piece"] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          chemin_recto?: string | null
+          chemin_selfie?: string | null
+          chemin_verso?: string | null
+          code_selfie: string
+          consentement_le?: string | null
+          created_at?: string
+          decide_le?: string | null
+          decide_par?: string | null
+          empreinte_avatar_verifie?: string | null
+          empreinte_recto?: string | null
+          empreinte_selfie?: string | null
+          empreinte_verso?: string | null
+          id?: string
+          images_effacees_le?: string | null
+          motif_refus?: string | null
+          nom_verifie?: string | null
+          prenom_verifie?: string | null
+          soumis_le?: string | null
+          statut?: Database["public"]["Enums"]["statut_kyc"]
+          suspect?: boolean
+          type_piece?: Database["public"]["Enums"]["type_piece"] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          chemin_recto?: string | null
+          chemin_selfie?: string | null
+          chemin_verso?: string | null
+          code_selfie?: string
+          consentement_le?: string | null
+          created_at?: string
+          decide_le?: string | null
+          decide_par?: string | null
+          empreinte_avatar_verifie?: string | null
+          empreinte_recto?: string | null
+          empreinte_selfie?: string | null
+          empreinte_verso?: string | null
+          id?: string
+          images_effacees_le?: string | null
+          motif_refus?: string | null
+          nom_verifie?: string | null
+          prenom_verifie?: string | null
+          soumis_le?: string | null
+          statut?: Database["public"]["Enums"]["statut_kyc"]
+          suspect?: boolean
+          type_piece?: Database["public"]["Enums"]["type_piece"] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verifications_identite_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       villes: {
         Row: {
           centre: unknown
@@ -792,6 +878,13 @@ export type Database = {
       }
     }
     Views: {
+      file_identites: {
+        Row: {
+          nombre: number | null
+          plus_ancien: string | null
+        }
+        Relationships: []
+      }
       file_universites_a_placer: {
         Row: {
           nombre: number | null
@@ -960,7 +1053,12 @@ export type Database = {
         Returns: undefined
       }
       alertes_files: { Args: never; Returns: number }
+      annuler_kyc: { Args: never; Returns: undefined }
       anonymiser_compte: { Args: { p_uid: string }; Returns: undefined }
+      autoriser_consultation_kyc: {
+        Args: { p_id: string; p_image: string }
+        Returns: string
+      }
       avatar_valide: { Args: { p_id: string }; Returns: string }
       compter_file: {
         Args: { p_vue: string }
@@ -969,6 +1067,8 @@ export type Database = {
           plus_ancien: string
         }[]
       }
+      compteurs_utilisateur_identite: { Args: { p_uid: string }; Returns: Json }
+      consentir_kyc: { Args: never; Returns: undefined }
       consommer_quota: {
         Args: {
           p_action: string
@@ -1010,10 +1110,15 @@ export type Database = {
         Args: { p_contexte?: string; p_texte: string }
         Returns: string
       }
+      decider_kyc: {
+        Args: { p_id: string; p_motif?: string; p_valide: boolean }
+        Returns: undefined
+      }
       decider_photo: {
         Args: { p_decision: string; p_motif?: string; p_photo_id: number }
         Returns: string
       }
+      declencher_purge_kyc: { Args: never; Returns: undefined }
       declencher_recapitulatif: { Args: never; Returns: undefined }
       definir_maintenance: {
         Args: { p_active: boolean; p_fin?: string; p_message?: string }
@@ -1022,6 +1127,13 @@ export type Database = {
       definir_preferences_admin: {
         Args: { p_alertes: boolean; p_recap: boolean }
         Returns: undefined
+      }
+      demarrer_kyc: {
+        Args: never
+        Returns: {
+          code: string
+          verification_id: string
+        }[]
       }
       desactiver_mon_compte: {
         Args: { p_confirmation: string }
@@ -1032,7 +1144,24 @@ export type Database = {
         Returns: number
       }
       donnees_recapitulatif: { Args: never; Returns: Json }
+      dossier_kyc_admin: {
+        Args: { p_id: string }
+        Returns: {
+          avatar_chemin: string
+          code_selfie: string
+          id: string
+          images_disponibles: boolean
+          motif_refus: string
+          nom: string
+          prenom: string
+          soumis_le: string
+          statut: string
+          suspect: boolean
+          type_piece: string
+        }[]
+      }
       email_direct_actif: { Args: never; Returns: boolean }
+      empreinte_avatar_actuel: { Args: { p_uid: string }; Returns: string }
       en_maintenance: { Args: never; Returns: boolean }
       enregistrer_erreur: {
         Args: {
@@ -1068,10 +1197,14 @@ export type Database = {
           plus_ancien: string
         }[]
       }
+      exiger_identite_verifiee: { Args: never; Returns: undefined }
+      exporter_donnees_identite: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
       exporter_mes_donnees: { Args: never; Returns: Json }
       fiche_utilisateur: { Args: { p_id: string }; Returns: Json }
+      identite_conforme: { Args: { p_uid: string }; Returns: boolean }
+      identite_verifiee: { Args: { p_uid: string }; Returns: boolean }
       journaliser:
         | {
             Args: {
@@ -1092,6 +1225,29 @@ export type Database = {
             }
             Returns: undefined
           }
+      kyc_actif: { Args: never; Returns: boolean }
+      kyc_enregistrer_image: {
+        Args: {
+          p_chemin: string
+          p_empreinte: string
+          p_type: string
+          p_uid: string
+          p_verification: string
+        }
+        Returns: undefined
+      }
+      kyc_images_a_effacer: {
+        Args: { p_uid?: string }
+        Returns: {
+          chemins: string[]
+          id: string
+        }[]
+      }
+      kyc_marquer_effacees: { Args: { p_ids: string[] }; Returns: undefined }
+      kyc_preparer_depot: {
+        Args: { p_uid: string; p_verification: string }
+        Returns: undefined
+      }
       lever_suspensions_expirees: { Args: never; Returns: number }
       liste_administrateurs: {
         Args: never
@@ -1105,6 +1261,19 @@ export type Database = {
           role: string
           statut: string
           telephone: string
+        }[]
+      }
+      liste_dossiers_kyc: {
+        Args: { p_statut?: string }
+        Returns: {
+          decide_le: string
+          id: string
+          nom: string
+          prenom: string
+          soumis_le: string
+          statut: string
+          suspect: boolean
+          type_piece: string
         }[]
       }
       liste_parametres: {
@@ -1178,6 +1347,23 @@ export type Database = {
           statut: string
         }[]
       }
+      mon_kyc: {
+        Args: never
+        Returns: {
+          code_selfie: string
+          consentement: boolean
+          decide_le: string
+          dossiers_restants: number
+          motif_refus: string
+          recto: boolean
+          selfie: boolean
+          statut: string
+          type_piece: string
+          verification_id: string
+          verifiee: boolean
+          verso: boolean
+        }[]
+      }
       normaliser_texte: {
         Args: { p_texte: string; p_variante?: number }
         Returns: string
@@ -1229,6 +1415,7 @@ export type Database = {
       }
       resume_files_admin: { Args: never; Returns: string }
       signaler_activite_admin: { Args: never; Returns: undefined }
+      soumettre_kyc: { Args: { p_type_piece: string }; Returns: undefined }
       taches_planifiees: { Args: never; Returns: undefined }
       verifier_empreinte: {
         Args: { p_auteur: string; p_empreinte: string }
@@ -1249,6 +1436,8 @@ export type Database = {
     Enums: {
       role_utilisateur: "etudiant" | "proprietaire" | "admin" | "super_admin"
       statut_compte: "actif" | "suspendu" | "desactive"
+      statut_kyc: "non_soumis" | "en_attente" | "valide" | "refuse"
+      type_piece: "cni" | "passeport"
     }
     CompositeTypes: {
       resultat_verification: {
@@ -1381,6 +1570,8 @@ export const Constants = {
     Enums: {
       role_utilisateur: ["etudiant", "proprietaire", "admin", "super_admin"],
       statut_compte: ["actif", "suspendu", "desactive"],
+      statut_kyc: ["non_soumis", "en_attente", "valide", "refuse"],
+      type_piece: ["cni", "passeport"],
     },
   },
 } as const

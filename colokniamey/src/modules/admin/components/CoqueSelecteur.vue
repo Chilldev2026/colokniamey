@@ -3,12 +3,13 @@
 // routes des sous-modules actifs que ce rôle a le droit d'ouvrir.
 import { computed } from 'vue'
 import { roleCourant } from '@/core/acces'
+import { parametres } from '@/core/parametres'
 import { construireMenu } from '../menu'
 import { routesEnfantsAdmin } from '../routes'
 import CoqueAdmin from './CoqueAdmin.vue'
 import CoqueSuperAdmin from './CoqueSuperAdmin.vue'
 
-const entrees = computed(() => construireMenu(routesEnfantsAdmin, roleCourant.value))
+const entrees = computed(() => construireMenu(routesEnfantsAdmin, roleCourant.value, { kyc_actif: parametres.value.kyc_actif }))
 </script>
 
 <template>

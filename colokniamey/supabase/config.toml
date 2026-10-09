@@ -417,3 +417,7 @@ enabled = true
 # A2 : le récapitulatif quotidien est appelé par pg_cron avec un secret partagé (x-cron-secret), sans jeton utilisateur
 [functions.admin-recapitulatif]
 verify_jwt = false
+
+# K : l effacement des images d identite est appele par pg_cron avec un secret partage (x-cron-secret)
+[functions.kyc-purge]
+verify_jwt = false

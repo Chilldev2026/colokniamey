@@ -11,13 +11,19 @@ const ORDRE_SECTIONS = {
   admin: { operations: 0, pilotage: 1 },
 } as const
 
-/** Les routes enfants de /admin qui déclarent meta.menuAdmin et que ce rôle a le droit d'ouvrir. */
-export function construireMenu(routes: RouteRecordRaw[], role: Role | null): EntreeMenuCalculee[] {
+/** Les routes enfants de /admin qui déclarent meta.menuAdmin et que ce rôle a le droit d'ouvrir.
+ *  `actifs` : paramètres publics à vrai (une entrée qui déclare visibleSi n'apparaît que si son paramètre l'est). */
+export function construireMenu(
+  routes: RouteRecordRaw[],
+  role: Role | null,
+  actifs: Partial<Record<'kyc_actif', boolean>> = {},
+): EntreeMenuCalculee[] {
   if (role !== 'admin' && role !== 'super_admin') return []
   const entrees: EntreeMenuCalculee[] = []
   for (const route of routes) {
     const menu = route.meta?.menuAdmin
     if (!menu) continue
+    if (menu.visibleSi && !actifs[menu.visibleSi]) continue
     const roles = route.meta?.roles ?? []
     if (roles.length > 0 && !roles.includes(role)) continue
     entrees.push({ ...menu, vers: `/admin/${route.path}`, roles })

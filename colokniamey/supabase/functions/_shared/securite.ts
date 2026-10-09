@@ -6,6 +6,11 @@ import { createClient, type SupabaseClient, type User } from 'npm:@supabase/supa
 
 const TAILLE_MAX_OCTETS = 20_000
 
+export interface OptionsServir {
+  /** Taille maximale du corps en octets (20 000 par défaut ; K en accepte davantage pour les images). */
+  tailleMax?: number
+}
+
 export type Role = 'etudiant' | 'proprietaire' | 'admin' | 'super_admin'
 
 /** Erreur dont le message peut être montré tel quel à l'appelant. */
@@ -66,6 +71,7 @@ export interface Contexte {
 export function servir(
   rolesAutorises: Role[],
   traitement: (ctx: Contexte) => Promise<unknown>,
+  options: OptionsServir = {},
 ): void {
   Deno.serve(async (req) => {
     const origine = req.headers.get('Origin')
@@ -115,7 +121,7 @@ export function servir(
 
       // Taille limitée, corps JSON objet
       const texte = await req.text()
-      if (new TextEncoder().encode(texte).length > TAILLE_MAX_OCTETS) {
+      if (new TextEncoder().encode(texte).length > (options.tailleMax ?? TAILLE_MAX_OCTETS)) {
         throw new ErreurHttp(413, 'Requête trop volumineuse.')
       }
       let corps: Record<string, unknown> = {}
@@ -128,6 +134,12 @@ export function servir(
       }
 
       const resultat = await traitement({ req, user: data.user, role, client, admin, corps })
+      // Une réponse binaire (K : image déchiffrée) garde ses propres en-têtes, plus le CORS
+      if (resultat instanceof Response) {
+        const entetes = new Headers(resultat.headers)
+        for (const [cle, valeur] of Object.entries(entetesCors(origine))) entetes.set(cle, valeur)
+        return new Response(resultat.body, { status: resultat.status, headers: entetes })
+      }
       return reponseJson(resultat ?? { ok: true }, 200, origine)
     } catch (e) {
       if (e instanceof ErreurHttp) {

@@ -43,6 +43,8 @@ function depuis(date: string): string {
     <AvatarProfil :prenom="profil.prenom" :chemin="profil.avatarChemin" :taille="56" />
     <div class="infos">
       <h3>{{ profil.prenom }} {{ profil.initialeNom }}.</h3>
+      <!-- Emplacement du badge « Identité vérifiée » (module K) : l'appelant y place BadgeIdentite, sans dépendance circulaire -->
+      <slot name="badge" :user-id="profil.id" />
       <p class="role">
         <template v-if="profil.role === 'etudiant'">Étudiant<template v-if="profil.universite"> · {{ profil.universite }}</template></template>
         <template v-else>{{ profil.typeProprietaire === 'agence' ? 'Agence' : 'Propriétaire' }}</template>

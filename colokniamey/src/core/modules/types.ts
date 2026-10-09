@@ -27,6 +27,8 @@ export interface EntreeMenuAdmin {
   ordre: number
   /** Nom d'une file de files_admin : le compteur s'affiche à côté du libellé. */
   fileAdmin?: string
+  /** Paramètre public à vrai pour que l'entrée apparaisse (ex. kyc_actif : file /admin/identites masquée, RG59). */
+  visibleSi?: 'kyc_actif'
 }
 
 export interface DefinitionModule {

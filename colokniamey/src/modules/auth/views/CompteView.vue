@@ -2,6 +2,7 @@
 // Espace de la personne connectée. Le profil détaillé arrive avec le module M3.
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { parametres } from '@/core/parametres'
 import AlerteUi from '@/core/ui/AlerteUi.vue'
 import BoutonUi from '@/core/ui/BoutonUi.vue'
 import { useToasts } from '@/core/ui/useToasts'
@@ -40,6 +41,8 @@ async function sortir(partout: boolean) {
       <RouterLink to="/profil">Mon profil</RouterLink>
       <RouterLink to="/profil/donnees">Mes données</RouterLink>
       <RouterLink to="/profil/securite">Mot de passe et compte</RouterLink>
+      <!-- Parcours du module K, visible seulement quand la vérification d'identité est activée (RG59) -->
+      <RouterLink v-if="parametres.kyc_actif && auth.profil.role === 'etudiant'" to="/identite">Vérifier mon identité</RouterLink>
     </nav>
     <div class="actions">
       <BoutonUi variante="secondaire" :chargement="envoi" pleine-largeur @click="sortir(false)">Me déconnecter</BoutonUi>
