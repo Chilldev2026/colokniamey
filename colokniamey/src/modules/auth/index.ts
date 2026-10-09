@@ -7,6 +7,8 @@ import { useAuthStore } from './stores/authStore'
 export { useAuthStore } from './stores/authStore'
 export { default as FenetreNouvellesConditions } from './components/FenetreNouvellesConditions.vue'
 export { LIBELLES_ROLE } from './types'
+export { changerMotDePasse } from './services/authService'
+export { validerMotDePasse, validerTelephone } from './validation'
 export type { Profil } from './types'
 
 /** Restaure la session au démarrage. Ne rejette jamais : une erreur laisse simplement l'application en mode visiteur. */

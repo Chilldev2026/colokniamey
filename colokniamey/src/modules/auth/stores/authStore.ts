@@ -147,6 +147,16 @@ export const useAuthStore = defineStore('auth', () => {
     await viderEtat()
   }
 
+  /** À appeler après une modification du profil (nom, prénom) pour mettre l'état à jour. */
+  async function rafraichirProfil() {
+    if (session.value) await appliquerSession(session.value)
+  }
+
+  /** Après une désactivation : la session est déjà détruite côté serveur, on vide seulement l'état local. */
+  async function fermerSessionLocale() {
+    await fermerSession(null)
+  }
+
   async function accepterCgu() {
     await service.accepterCgu(parametres.value.version_cgu)
     if (session.value) await appliquerSession(session.value)
@@ -169,5 +179,7 @@ export const useAuthStore = defineStore('auth', () => {
     deconnecter,
     deconnecterPartout,
     accepterCgu,
+    rafraichirProfil,
+    fermerSessionLocale,
   }
 })

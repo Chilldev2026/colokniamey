@@ -48,8 +48,10 @@ La liste initiale est courte (`0350_securite_contenu.sql`) et se complète dans 
 il reste inactif (`valide = false`) jusqu'à validation par un super-admin (RGA28). **Aucune liste de termes
 n'est jamais renvoyée au navigateur** (`verifier_texte` n'a aucun GRANT).
 
-Les colonnes `nom`, `prenom`, `filiere`, `bio` et `adresse` de M2 n'ont pas encore de déclencheur : M3 (profils)
-les contrôlera avec le modèle ci-dessus.
+Les colonnes de texte libre de M2 (`nom`, `prenom`, `niveau_etude`, `filiere`, `bio`, `adresse`) sont contrôlées par M3
+(`0400_profils.sql`) avec le contexte `prive` : blocage seulement, car ces tables n'ont pas de colonne `en_revue`.
+Les tables dont la clé n'est pas `id` (comme `profils_complements`) utilisent l'identifiant de l'auteur comme
+identifiant de contenu (correctif `0401`).
 
 ## 2. Photos (RG48 à RG50)
 
@@ -103,3 +105,11 @@ sauf OpenStreetMap et Turnstile). Éléments à vérifier **sur les sites offici
 
 Recommandation : ne pas l'activer pour la soutenance. La liste de termes + nsfwjs + validation humaine couvrent
 l'exigence, sans transfert de données vers un tiers. À présenter dans le mémoire comme axe d'amélioration.
+
+## 4. Désactivation d'un compte et photos (M3, RGA09)
+
+`desactiver_mon_compte()` anonymise le profil, bloque le compte d'authentification et ferme ses sessions, mais
+ne peut pas supprimer les fichiers de Storage : Supabase interdit la suppression SQL directe. Les photos d'un
+compte désactivé restent donc dans `photos_publiques` / `photos_en_attente`, sans plus aucun lien visible
+(le profil public d'un compte désactivé n'existe plus). Un nettoyage par Edge Function (`service_role`),
+à lancer par le super-admin, est à prévoir dans A2 ou F1 : les lignes de `photos` ont conservé les chemins.

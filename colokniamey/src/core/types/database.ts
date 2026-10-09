@@ -343,6 +343,38 @@ export type Database = {
         }
         Relationships: []
       }
+      profils_complements: {
+        Row: {
+          centres_interet: string[]
+          en_revue: boolean
+          profession: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          centres_interet?: string[]
+          en_revue?: boolean
+          profession?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          centres_interet?: string[]
+          en_revue?: boolean
+          profession?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profils_complements_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profils_etudiants: {
         Row: {
           bio: string | null
@@ -757,6 +789,7 @@ export type Database = {
     }
     Functions: {
       accepter_cgu: { Args: { p_version: string }; Returns: undefined }
+      avatar_valide: { Args: { p_id: string }; Returns: string }
       consommer_quota: {
         Args: {
           p_action: string
@@ -773,6 +806,10 @@ export type Database = {
       decider_photo: {
         Args: { p_decision: string; p_motif?: string; p_photo_id: number }
         Returns: string
+      }
+      desactiver_mon_compte: {
+        Args: { p_confirmation: string }
+        Returns: undefined
       }
       distance_empreintes: {
         Args: { p_a: string; p_b: string }
@@ -803,6 +840,9 @@ export type Database = {
       est_actif: { Args: never; Returns: boolean }
       est_admin: { Args: never; Returns: boolean }
       est_super_admin: { Args: never; Returns: boolean }
+      exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
+      exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
+      exporter_mes_donnees: { Args: never; Returns: Json }
       journaliser: {
         Args: {
           p_action: string
@@ -811,6 +851,14 @@ export type Database = {
           p_details?: Json
         }
         Returns: undefined
+      }
+      mon_avatar: {
+        Args: never
+        Returns: {
+          chemin_valide: string
+          motif: string
+          statut: string
+        }[]
       }
       normaliser_texte: {
         Args: { p_texte: string; p_variante?: number }
@@ -828,6 +876,21 @@ export type Database = {
       parametres_publics: { Args: never; Returns: Json }
       peut_ecrire: { Args: never; Returns: boolean }
       precontroler_photo: { Args: { p_empreinte: string }; Returns: undefined }
+      profil_public: {
+        Args: { p_id: string }
+        Returns: {
+          avatar_chemin: string
+          centres_interet: string[]
+          id: string
+          initiale_nom: string
+          membre_depuis: string
+          prenom: string
+          profession: string
+          role: string
+          type_proprietaire: string
+          universite: string
+        }[]
+      }
       quota_anonyme: {
         Args: { p_action: string; p_session: string }
         Returns: boolean

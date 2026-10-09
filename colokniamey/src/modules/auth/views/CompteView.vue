@@ -35,6 +35,12 @@ async function sortir(partout: boolean) {
 <template>
   <FormulaireAuth v-if="auth.profil" :titre="`Bonjour ${auth.profil.prenom}`" :intro="LIBELLES_ROLE[auth.profil.role]">
     <AlerteUi v-if="erreur" type="erreur">{{ erreur }}</AlerteUi>
+    <!-- Pages du module profils, atteintes par leur chemin (aucun import entre modules) -->
+    <nav class="liens-compte">
+      <RouterLink to="/profil">Mon profil</RouterLink>
+      <RouterLink to="/profil/donnees">Mes données</RouterLink>
+      <RouterLink to="/profil/securite">Mot de passe et compte</RouterLink>
+    </nav>
     <div class="actions">
       <BoutonUi variante="secondaire" :chargement="envoi" pleine-largeur @click="sortir(false)">Me déconnecter</BoutonUi>
       <BoutonUi variante="danger" :chargement="envoi" pleine-largeur @click="sortir(true)">
@@ -45,6 +51,15 @@ async function sortir(partout: boolean) {
 </template>
 
 <style scoped>
+.liens-compte {
+  display: flex;
+  flex-direction: column;
+}
+.liens-compte a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-min);
+}
 .actions {
   display: flex;
   flex-direction: column;

@@ -34,6 +34,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // Le modèle d'analyse des photos (module S, ~3,5 Mo) n'est chargé qu'au premier envoi de photo :
+        // inutile de le télécharger à l'installation de l'application.
+        globIgnores: ['**/group1-shard*.js', '**/model.min-*.js'],
         // RG27 : page hors ligne au lieu d'une erreur de navigateur
         navigateFallback: '/index.html',
         // RGP08 : tout ce qui vient de Supabase (données authentifiées, images privées,

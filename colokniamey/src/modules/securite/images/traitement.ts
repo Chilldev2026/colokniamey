@@ -21,6 +21,8 @@ export interface ParametresPhoto {
   dimensionMin: number
   /** Probabilité de nudité au-delà de laquelle la photo est refusée (paramètre nsfw_seuil). */
   seuilNsfw: number
+  /** Côté le plus long de l'image envoyée ; absent = 1600 px (avatars : plus petit). */
+  coteMax?: number
 }
 
 export interface ImageDecodee {
@@ -84,7 +86,8 @@ export async function traiterImage(
 
     const empreinte = dhashDepuisGris(image.gris)
 
-    for (const cote of COTES) {
+    const cotes = params.coteMax ? [params.coteMax, Math.round(params.coteMax * 0.75)] : COTES
+    for (const cote of cotes) {
       const blob = await image.encoder(cote, QUALITE)
       if (blob.size > TAILLE_SORTIE_MAX) continue
       // Le résultat doit être une vraie image : certains navigateurs ignorent « webp » et renvoient du PNG

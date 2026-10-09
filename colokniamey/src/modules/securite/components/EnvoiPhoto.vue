@@ -17,6 +17,8 @@ const props = withDefaults(
     libelle?: string
     /** Ouvre l'appareil photo avant (selfie) plutôt que la galerie, sur les téléphones. */
     camera?: boolean
+    /** Côté le plus long de l'image envoyée (par défaut 1600 px). */
+    coteMax?: number
   }>(),
   { mode: 'televerser', libelle: 'Choisir une photo', camera: false },
 )
@@ -49,6 +51,7 @@ async function choisie(evenement: Event) {
       tailleMaxOctets: parametres.value.photo_taille_max_mo * 1048576,
       dimensionMin: parametres.value.photo_dimension_min,
       seuilNsfw: parametres.value.nsfw_seuil,
+      coteMax: props.coteMax,
     })
     apercu.value = URL.createObjectURL(photo.blob)
 
