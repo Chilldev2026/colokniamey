@@ -27,6 +27,8 @@ begin
           'telephone', '90222222', 'cgu_version', v_cgu, 'type_proprietaire', 'agence'));
   insert into auth.users (id, email, raw_user_meta_data) values (v_adm, 'adm@test.local', v_meta || '{"nom":"Admin","prenom":"Super"}');
   update public.profils set role = 'super_admin' where id = v_adm;
+  -- A2 (RGA36) : est_admin() exige aussi une session admin active
+  insert into public.sessions_admin (session_id, user_id) values ('00000000-0000-0000-0000-0000000005e5', v_adm);
 
   -- ===================================================================
   -- Modification de son profil / refus sur celui d'autrui (RG10)
@@ -164,7 +166,7 @@ begin
   reset role;
   if (select avatar_chemin from public.profil_public(v_u1)) is not null then raise exception 'ÉCHEC RG49 : avatar en attente visible au public'; end if;
 
-  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_adm), true);
+  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2","session_id":"00000000-0000-0000-0000-0000000005e5"}', v_adm), true);
   set local role authenticated;
   perform public.decider_photo(v_photo, 'valider');
   reset role;
@@ -212,7 +214,7 @@ begin
   -- ===================================================================
   -- Désactivation avec anonymisation (RGA09)
   -- ===================================================================
-  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_adm), true);
+  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2","session_id":"00000000-0000-0000-0000-0000000005e5"}', v_adm), true);
   set local role authenticated;
   begin perform public.desactiver_mon_compte('DESACTIVER'); raise exception 'ÉCHEC RGA03 : un admin se désactive ici';
   exception when raise_exception then if sqlerrm like 'ÉCHEC%' then raise; end if; end;

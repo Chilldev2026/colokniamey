@@ -35,3 +35,26 @@ export function attendreAuth(): Promise<void> {
 
 export const CHEMIN_CONNEXION = '/connexion'
 export const CHEMIN_APRES_CONNEXION = '/compte'
+
+// A2 : le niveau de double authentification (aal2) est connu du module admin, pas du socle.
+// Par défaut on refuse : une route qui exige aal2 reste fermée tant que le module admin n'est pas branché.
+let verificationAal2: () => Promise<boolean> = () => Promise.resolve(false)
+
+export function declarerVerificationAal2(verification: () => Promise<boolean>): void {
+  verificationAal2 = verification
+}
+
+export function verifierAal2(): Promise<boolean> {
+  return verificationAal2()
+}
+
+// Page d'accueil de chaque rôle (RGA26) : l'espace admin la fournit pour ses rôles
+let accueilDuRole: (role: Role) => string = () => '/'
+
+export function declarerAccueilRole(accueil: (role: Role) => string): void {
+  accueilDuRole = accueil
+}
+
+export function accueilPourRole(role: Role | null): string {
+  return role === null ? '/' : accueilDuRole(role)
+}

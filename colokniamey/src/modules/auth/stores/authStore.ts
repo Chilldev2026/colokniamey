@@ -152,6 +152,11 @@ export const useAuthStore = defineStore('auth', () => {
     if (session.value) await appliquerSession(session.value)
   }
 
+  /** Fin de session par inactivité (admins : A2) : déconnexion, puis message à l'écran de connexion. */
+  async function expirerSession() {
+    await fermerSession('inactivite')
+  }
+
   /** Après une désactivation : la session est déjà détruite côté serveur, on vide seulement l'état local. */
   async function fermerSessionLocale() {
     await fermerSession(null)
@@ -181,5 +186,6 @@ export const useAuthStore = defineStore('auth', () => {
     accepterCgu,
     rafraichirProfil,
     fermerSessionLocale,
+    expirerSession,
   }
 })

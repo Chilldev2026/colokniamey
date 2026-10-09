@@ -8,12 +8,14 @@ import { referentielModule } from '@/modules/referentiel'
 import { authModule } from '@/modules/auth'
 import { securiteModule } from '@/modules/securite'
 import { profilsModule } from '@/modules/profils'
+import { adminModule } from '@/modules/admin'
 
 export const modulesActifs: DefinitionModule[] = [
   referentielModule,
   authModule,
   securiteModule,
   profilsModule,
+  adminModule,
   // Les modules suivants s'ajoutent ici au fil du développement :
   // annoncesModule…
 ]

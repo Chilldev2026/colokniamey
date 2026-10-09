@@ -116,6 +116,39 @@ export type Database = {
         }
         Relationships: []
       }
+      files_admin: {
+        Row: {
+          dernier_nombre: number
+          derniere_alerte_ancien_le: string | null
+          derniere_alerte_le: string | null
+          libelle: string
+          lien: string
+          nom: string
+          ordre: number
+          vue: string
+        }
+        Insert: {
+          dernier_nombre?: number
+          derniere_alerte_ancien_le?: string | null
+          derniere_alerte_le?: string | null
+          libelle: string
+          lien: string
+          nom: string
+          ordre?: number
+          vue: string
+        }
+        Update: {
+          dernier_nombre?: number
+          derniere_alerte_ancien_le?: string | null
+          derniere_alerte_le?: string | null
+          libelle?: string
+          lien?: string
+          nom?: string
+          ordre?: number
+          vue?: string
+        }
+        Relationships: []
+      }
       journal_audit: {
         Row: {
           acteur_id: string | null
@@ -293,6 +326,35 @@ export type Database = {
             foreignKeyName: "photos_proprietaire_id_fkey"
             columns: ["proprietaire_id"]
             isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      preferences_admin: {
+        Row: {
+          alertes_urgentes: boolean
+          recap_quotidien: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alertes_urgentes?: boolean
+          recap_quotidien?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alertes_urgentes?: boolean
+          recap_quotidien?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferences_admin_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "profils"
             referencedColumns: ["id"]
           },
@@ -488,6 +550,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      relances: {
+        Row: {
+          a: string
+          canal: string
+          cree_le: string
+          de: string | null
+          id: number
+          motif: string | null
+          vu_le: string | null
+        }
+        Insert: {
+          a: string
+          canal: string
+          cree_le?: string
+          de?: string | null
+          id?: never
+          motif?: string | null
+          vu_le?: string | null
+        }
+        Update: {
+          a?: string
+          canal?: string
+          cree_le?: string
+          de?: string | null
+          id?: never
+          motif?: string | null
+          vu_le?: string | null
+        }
+        Relationships: []
+      }
+      sessions_admin: {
+        Row: {
+          derniere_activite: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          derniere_activite?: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          derniere_activite?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       termes_sensibles: {
         Row: {
@@ -789,7 +899,45 @@ export type Database = {
     }
     Functions: {
       accepter_cgu: { Args: { p_version: string }; Returns: undefined }
+      admin_action_changer_role: {
+        Args: { p_acteur: string; p_cible: string; p_role: string }
+        Returns: undefined
+      }
+      admin_action_desactiver: {
+        Args: { p_acteur: string; p_cible: string; p_motif: string }
+        Returns: undefined
+      }
+      admin_action_preparer_reinit_mfa: {
+        Args: { p_acteur: string; p_cible: string; p_motif: string }
+        Returns: undefined
+      }
+      admin_action_preparer_suppression: {
+        Args: { p_acteur: string; p_cible: string; p_motif: string }
+        Returns: undefined
+      }
+      admin_action_reactiver: {
+        Args: { p_acteur: string; p_cible: string }
+        Returns: undefined
+      }
+      admin_action_suspendre: {
+        Args: {
+          p_acteur: string
+          p_cible: string
+          p_jusqua?: string
+          p_motif: string
+        }
+        Returns: undefined
+      }
+      alertes_files: { Args: never; Returns: number }
+      anonymiser_compte: { Args: { p_uid: string }; Returns: undefined }
       avatar_valide: { Args: { p_id: string }; Returns: string }
+      compter_file: {
+        Args: { p_vue: string }
+        Returns: {
+          nombre: number
+          plus_ancien: string
+        }[]
+      }
       consommer_quota: {
         Args: {
           p_action: string
@@ -799,6 +947,34 @@ export type Database = {
         }
         Returns: boolean
       }
+      controler_acteur_admin: {
+        Args: {
+          p_acteur: string
+          p_cible: string
+          p_egal_ok?: boolean
+          p_super_requis: boolean
+        }
+        Returns: {
+          cgu_acceptee_le: string
+          cgu_version: string
+          created_at: string
+          id: string
+          motif_suspension: string | null
+          nom: string
+          prenom: string
+          role: Database["public"]["Enums"]["role_utilisateur"]
+          statut: Database["public"]["Enums"]["statut_compte"]
+          suspendu_jusqua: string | null
+          telephone: string
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "profils"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       controler_texte: {
         Args: { p_contexte?: string; p_texte: string }
         Returns: string
@@ -806,6 +982,11 @@ export type Database = {
       decider_photo: {
         Args: { p_decision: string; p_motif?: string; p_photo_id: number }
         Returns: string
+      }
+      declencher_recapitulatif: { Args: never; Returns: undefined }
+      definir_preferences_admin: {
+        Args: { p_alertes: boolean; p_recap: boolean }
+        Returns: undefined
       }
       desactiver_mon_compte: {
         Args: { p_confirmation: string }
@@ -815,6 +996,8 @@ export type Database = {
         Args: { p_a: string; p_b: string }
         Returns: number
       }
+      donnees_recapitulatif: { Args: never; Returns: Json }
+      email_direct_actif: { Args: never; Returns: boolean }
       en_maintenance: { Args: never; Returns: boolean }
       enregistrer_erreur: {
         Args: {
@@ -840,17 +1023,104 @@ export type Database = {
       est_actif: { Args: never; Returns: boolean }
       est_admin: { Args: never; Returns: boolean }
       est_super_admin: { Args: never; Returns: boolean }
+      etat_files_admin: {
+        Args: never
+        Returns: {
+          libelle: string
+          lien: string
+          nom: string
+          nombre: number
+          plus_ancien: string
+        }[]
+      }
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
       exporter_mes_donnees: { Args: never; Returns: Json }
-      journaliser: {
+      fiche_utilisateur: { Args: { p_id: string }; Returns: Json }
+      journaliser:
+        | {
+            Args: {
+              p_acteur: string
+              p_action: string
+              p_cible_id: string
+              p_cible_type: string
+              p_details?: Json
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
+              p_action: string
+              p_cible_id: string
+              p_cible_type: string
+              p_details?: Json
+            }
+            Returns: undefined
+          }
+      lever_suspensions_expirees: { Args: never; Returns: number }
+      liste_administrateurs: {
+        Args: never
+        Returns: {
+          created_at: string
+          derniere_connexion: string
+          email: string
+          id: string
+          nom: string
+          prenom: string
+          role: string
+          statut: string
+          telephone: string
+        }[]
+      }
+      liste_relances: {
+        Args: never
+        Returns: {
+          a_id: string
+          a_prenom: string
+          canal: string
+          cree_le: string
+          id: number
+          motif: string
+          vu_le: string
+        }[]
+      }
+      liste_utilisateurs: {
         Args: {
-          p_action: string
-          p_cible_id: string
-          p_cible_type: string
-          p_details?: Json
+          p_decalage?: number
+          p_depuis?: string
+          p_jusqua?: string
+          p_limite?: number
+          p_recherche?: string
+          p_role?: string
+          p_statut?: string
         }
-        Returns: undefined
+        Returns: {
+          created_at: string
+          email: string
+          id: string
+          nom: string
+          prenom: string
+          role: string
+          statut: string
+          telephone: string
+          total: number
+        }[]
+      }
+      marquer_relance_vue: { Args: { p_id: number }; Returns: undefined }
+      mes_preferences_admin: {
+        Args: never
+        Returns: {
+          alertes_urgentes: boolean
+          recap_quotidien: boolean
+        }[]
+      }
+      mes_relances_non_vues: {
+        Args: never
+        Returns: {
+          cree_le: string
+          id: number
+          motif: string
+        }[]
       }
       mon_avatar: {
         Args: never
@@ -896,6 +1166,22 @@ export type Database = {
         Returns: boolean
       }
       quota_envoi_photo: { Args: never; Returns: boolean }
+      rang_role: {
+        Args: { p_role: Database["public"]["Enums"]["role_utilisateur"] }
+        Returns: number
+      }
+      relancer_admin: {
+        Args: { p_canal: string; p_cible: string; p_motif?: string }
+        Returns: {
+          cible_id: string
+          prenom: string
+          relance_id: number
+          resume: string
+        }[]
+      }
+      resume_files_admin: { Args: never; Returns: string }
+      signaler_activite_admin: { Args: never; Returns: undefined }
+      taches_planifiees: { Args: never; Returns: undefined }
       verifier_empreinte: {
         Args: { p_auteur: string; p_empreinte: string }
         Returns: boolean

@@ -1,13 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { modulesActifs } from './modules'
 import { menuCore, routeIntrouvable, routesCore } from '@/core/routes'
-import {
-  attendreAuth,
-  CHEMIN_APRES_CONNEXION,
-  CHEMIN_CONNEXION,
-  roleAutorise,
-  roleCourant,
-} from '@/core/acces'
+import { attendreAuth, roleCourant, verifierAal2 } from '@/core/acces'
+import { decider } from './gardes'
+import { useToasts } from '@/core/ui/useToasts'
 import { maintenanceBloquante } from '@/core/parametres'
 import { definirModuleCourant } from '@/core/observabilite/contexte'
 import { mettreAJourDirection } from '@/core/design/direction'
@@ -37,19 +33,12 @@ router.beforeEach(async (to) => {
   if (!to.meta.horsMaintenance && (await maintenanceBloquante())) {
     return { name: 'maintenance' }
   }
-  // Page réservée aux visiteurs (connexion, inscription) : une personne connectée va à son espace
-  if (to.meta.visiteurSeulement && roleCourant.value !== null) {
-    return CHEMIN_APRES_CONNEXION
-  }
-  // Page qui exige une connexion : retour à la page voulue après la connexion
-  if (to.meta.connexionRequise && roleCourant.value === null) {
-    return { path: CHEMIN_CONNEXION, query: { redirect: to.fullPath } }
-  }
-  // RGA26 : une route interdite renvoie vers l'accueil
-  if (!roleAutorise(to.meta.roles)) {
-    return { name: 'accueil' }
-  }
-  return true
+  // Le niveau de double authentification n'est interrogé que pour les routes qui l'exigent (RGA04)
+  const aal2 = to.meta.exigeAal2 && roleCourant.value !== null ? await verifierAal2() : false
+  const decision = decider(to.meta, to.fullPath, { role: roleCourant.value, aal2 })
+  if (decision === true) return true
+  if (decision.message) useToasts().afficher(decision.message, 'info')
+  return { path: decision.path, query: decision.query }
 })
 
 router.afterEach((to) => {

@@ -5,7 +5,7 @@ import AlerteUi from '@/core/ui/AlerteUi.vue'
 import BoutonUi from '@/core/ui/BoutonUi.vue'
 import ChampUi from '@/core/ui/ChampUi.vue'
 import TurnstileWidget from '@/core/ui/TurnstileWidget.vue'
-import { CHEMIN_APRES_CONNEXION } from '@/core/acces'
+import { accueilPourRole, CHEMIN_APRES_CONNEXION } from '@/core/acces'
 import FormulaireAuth from '../components/FormulaireAuth.vue'
 import { useAuthStore } from '../stores/authStore'
 import { validerEmail } from '../validation'
@@ -26,7 +26,9 @@ const captchaActif = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY)
 // On ne suit que des chemins internes (pas d'adresse externe via ?redirect=)
 const destination = computed(() => {
   const voulue = typeof route.query.redirect === 'string' ? route.query.redirect : ''
-  return voulue.startsWith('/') && !voulue.startsWith('//') ? voulue : CHEMIN_APRES_CONNEXION
+  if (voulue.startsWith('/') && !voulue.startsWith('//')) return voulue
+  // Les admins arrivent dans leur espace (A2), les autres sur leur compte
+  return auth.role === 'admin' || auth.role === 'super_admin' ? accueilPourRole(auth.role) : CHEMIN_APRES_CONNEXION
 })
 
 // Couvre la connexion par ce formulaire et celle faite via le lien de confirmation de l'e-mail

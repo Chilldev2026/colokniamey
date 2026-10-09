@@ -28,6 +28,8 @@ begin
     (v_etu, 'e101@test.local', v_meta), (v_etu2, 'e102@test.local', v_meta),
     (v_etu3, 'e103@test.local', v_meta), (v_adm, 'a101@test.local', v_meta);
   update public.profils set role = 'super_admin' where id = v_adm;
+  -- A2 (RGA36) : est_admin() exige aussi une session admin active
+  insert into public.sessions_admin (session_id, user_id) values ('00000000-0000-0000-0000-0000000005e5', v_adm);
 
   -- ===================================================================
   -- Normalisation (RG46)
@@ -288,7 +290,7 @@ begin
   reset role;
 
   -- Admin aal2 : refus sans motif impossible, refus motivé, journalisé et notifié
-  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_adm), true);
+  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2","session_id":"00000000-0000-0000-0000-0000000005e5"}', v_adm), true);
   set local role authenticated;
   begin perform public.decider_photo(v_id1, 'refuser'); raise exception 'ÉCHEC : refus sans motif accepté';
   exception when raise_exception then if sqlerrm like 'ÉCHEC%' then raise; end if; end;
@@ -315,7 +317,7 @@ begin
 
   -- Un admin ne décide pas de sa propre photo (RGA02)
   insert into storage.objects (bucket_id, name) values ('photos_en_attente', v_adm::text || '/c1.webp');
-  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_adm), true);
+  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2","session_id":"00000000-0000-0000-0000-0000000005e5"}', v_adm), true);
   set local role authenticated;
   v_id1 := public.enregistrer_photo(v_adm::text || '/c1.webp', 'avatar', '5555aaaa5555aaaa');
   begin perform public.decider_photo(v_id1, 'valider'); raise exception 'ÉCHEC RGA02 : l''admin valide sa propre photo';

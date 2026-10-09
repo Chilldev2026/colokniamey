@@ -15,6 +15,14 @@ import {
   TriangleAlert,
   Search,
   MapPin,
+  ShieldCheck,
+  Menu as MenuIcone,
+  LogOut,
+  KeyRound,
+  UserCog,
+  ClipboardList,
+  Bell,
+  Settings,
 } from 'lucide-vue-next'
 
 export const icones: Record<string, Component> = {
@@ -31,6 +39,15 @@ export const icones: Record<string, Component> = {
   attention: TriangleAlert,
   recherche: Search,
   position: MapPin,
+  admin: ShieldCheck,
+  menu: MenuIcone,
+  deconnexion: LogOut,
+  securite: KeyRound,
+  utilisateurs: Users,
+  administrateurs: UserCog,
+  file: ClipboardList,
+  relance: Bell,
+  parametres: Settings,
 }
 
 export type NomIcone = keyof typeof icones

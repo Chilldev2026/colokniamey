@@ -206,6 +206,8 @@ begin
   update public.profils set role = 'admin' where id = v_adm; -- sans effet : le compte n'existe pas encore
   insert into auth.users (id, email, raw_user_meta_data) values (v_adm, 'adm@test.local', v_meta);
   update public.profils set role = 'super_admin' where id = v_adm;
+  -- A2 (RGA36) : est_admin() exige aussi une session admin active
+  insert into public.sessions_admin (session_id, user_id) values ('00000000-0000-0000-0000-0000000005e5', v_adm);
 
   perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal1"}', v_adm), true);
   set local role authenticated;
@@ -214,7 +216,7 @@ begin
   if v_nb <> 1 then raise exception 'ÉCHEC RGA04 : l''admin sans aal2 voit % profils', v_nb; end if;
   reset role;
 
-  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_adm), true);
+  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2","session_id":"00000000-0000-0000-0000-0000000005e5"}', v_adm), true);
   set local role authenticated;
   if not (public.est_admin() and public.est_super_admin()) then raise exception 'ÉCHEC RGA04 : super_admin aal2 refusé'; end if;
   select count(*) into v_nb from public.profils;
@@ -228,7 +230,7 @@ begin
   set local role authenticated;
   if public.peut_ecrire() then raise exception 'ÉCHEC RGA16 : écriture permise en maintenance'; end if;
   reset role;
-  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2"}', v_adm), true);
+  perform set_config('request.jwt.claims', format('{"sub":"%s","role":"authenticated","aal":"aal2","session_id":"00000000-0000-0000-0000-0000000005e5"}', v_adm), true);
   set local role authenticated;
   if not public.peut_ecrire() then raise exception 'ÉCHEC RGA16 : un admin ne peut pas écrire en maintenance'; end if;
   reset role;
