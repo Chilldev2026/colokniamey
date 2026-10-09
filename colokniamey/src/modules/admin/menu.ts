@@ -5,7 +5,11 @@ import type { RouteRecordRaw } from 'vue-router'
 import type { Role } from '@/core/modules/types'
 import type { EntreeMenuCalculee } from './types'
 
-const ORDRE_SECTIONS = { pilotage: 0, operations: 1 } as const
+// Le super-admin commence par le pilotage ; l'admin commence par les opérations (sa file de travail)
+const ORDRE_SECTIONS = {
+  super_admin: { pilotage: 0, operations: 1 },
+  admin: { operations: 0, pilotage: 1 },
+} as const
 
 /** Les routes enfants de /admin qui déclarent meta.menuAdmin et que ce rôle a le droit d'ouvrir. */
 export function construireMenu(routes: RouteRecordRaw[], role: Role | null): EntreeMenuCalculee[] {
@@ -18,7 +22,8 @@ export function construireMenu(routes: RouteRecordRaw[], role: Role | null): Ent
     if (roles.length > 0 && !roles.includes(role)) continue
     entrees.push({ ...menu, vers: `/admin/${route.path}`, roles })
   }
-  return entrees.sort((a, b) => ORDRE_SECTIONS[a.section] - ORDRE_SECTIONS[b.section] || a.ordre - b.ordre)
+  const ordre = ORDRE_SECTIONS[role]
+  return entrees.sort((a, b) => ordre[a.section] - ordre[b.section] || a.ordre - b.ordre)
 }
 
 /** Accueil d'un rôle : tant qu'A1 n'est pas installé, c'est la première page autorisée de son menu (RGA26). */

@@ -80,6 +80,27 @@ export type Database = {
         }
         Relationships: []
       }
+      equipements: {
+        Row: {
+          actif: boolean
+          id: number
+          nom: string
+          ordre: number
+        }
+        Insert: {
+          actif?: boolean
+          id?: never
+          nom: string
+          ordre?: number
+        }
+        Update: {
+          actif?: boolean
+          id?: never
+          nom?: string
+          ordre?: number
+        }
+        Relationships: []
+      }
       erreurs: {
         Row: {
           derniere_vue: string
@@ -118,6 +139,7 @@ export type Database = {
       }
       files_admin: {
         Row: {
+          alerter: boolean
           dernier_nombre: number
           derniere_alerte_ancien_le: string | null
           derniere_alerte_le: string | null
@@ -128,6 +150,7 @@ export type Database = {
           vue: string
         }
         Insert: {
+          alerter?: boolean
           dernier_nombre?: number
           derniere_alerte_ancien_le?: string | null
           derniere_alerte_le?: string | null
@@ -138,6 +161,7 @@ export type Database = {
           vue: string
         }
         Update: {
+          alerter?: boolean
           dernier_nombre?: number
           derniere_alerte_ancien_le?: string | null
           derniere_alerte_le?: string | null
@@ -768,6 +792,13 @@ export type Database = {
       }
     }
     Views: {
+      file_universites_a_placer: {
+        Row: {
+          nombre: number | null
+          plus_ancien: string | null
+        }
+        Relationships: []
+      }
       quartiers_geo: {
         Row: {
           commune: string | null
@@ -984,6 +1015,10 @@ export type Database = {
         Returns: string
       }
       declencher_recapitulatif: { Args: never; Returns: undefined }
+      definir_maintenance: {
+        Args: { p_active: boolean; p_fin?: string; p_message?: string }
+        Returns: undefined
+      }
       definir_preferences_admin: {
         Args: { p_alertes: boolean; p_recap: boolean }
         Returns: undefined
@@ -1072,6 +1107,15 @@ export type Database = {
           telephone: string
         }[]
       }
+      liste_parametres: {
+        Args: never
+        Returns: {
+          cle: string
+          modifie_le: string
+          publique: boolean
+          valeur: Json
+        }[]
+      }
       liste_relances: {
         Args: never
         Returns: {
@@ -1121,6 +1165,10 @@ export type Database = {
           id: number
           motif: string
         }[]
+      }
+      modifier_parametre: {
+        Args: { p_cle: string; p_valeur: Json }
+        Returns: undefined
       }
       mon_avatar: {
         Args: never

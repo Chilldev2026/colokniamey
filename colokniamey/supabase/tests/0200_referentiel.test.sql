@@ -42,18 +42,15 @@ begin
   exception when insufficient_privilege then
     raise notice 'OK : création refusée à un connecté';
   end;
-  begin
-    update public.universites set nom = 'Modifiée';
-    raise exception 'ÉCHEC : un connecté a modifié une université';
-  exception when insufficient_privilege then
-    raise notice 'OK : modification refusée à un connecté';
-  end;
-  begin
-    delete from public.universites;
-    raise exception 'ÉCHEC : un connecté a supprimé des universités';
-  exception when insufficient_privilege then
-    raise notice 'OK : suppression refusée à un connecté';
-  end;
+  -- Depuis A5, les admins écrivent dans le référentiel : un simple connecté est arrêté par la RLS (0 ligne touchée)
+  update public.universites set nom = 'Modifiée';
+  get diagnostics v_nb = row_count;
+  if v_nb <> 0 then raise exception 'ÉCHEC : un connecté a modifié % universités', v_nb; end if;
+  raise notice 'OK : modification refusée à un connecté';
+  delete from public.universites;
+  get diagnostics v_nb = row_count;
+  if v_nb <> 0 then raise exception 'ÉCHEC : un connecté a supprimé % universités', v_nb; end if;
+  raise notice 'OK : suppression refusée à un connecté';
   reset role;
 
   -- RG22 : une position hors de la zone de la ville est refusée (Paris, loin de Niamey)

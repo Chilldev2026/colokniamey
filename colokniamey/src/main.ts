@@ -7,6 +7,7 @@ import { supabase } from './core/supabase'
 import { demarrerCaptureErreurs } from './core/observabilite/erreurs'
 import { demarrerMesures } from './core/observabilite/mesures'
 import { declarerAttenteAuth } from './core/acces'
+import { demarrerDiffusionPlateforme } from './core/plateforme'
 import { initialiserAuth } from './modules/auth'
 import './core/design/tokens.css'
 
@@ -29,3 +30,5 @@ demarrerCaptureErreurs(app, async (message, module, page, session) => {
 demarrerMesures()
 
 app.mount('#app')
+// A5 : l'état de la plateforme (maintenance…) arrive en temps réel
+demarrerDiffusionPlateforme(router)

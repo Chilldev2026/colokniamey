@@ -18,6 +18,8 @@ export interface ParametresPublics {
   photo_taille_max_mo: number
   photo_dimension_min: number
   nsfw_seuil: number
+  kyc_actif: boolean
+  kyc_proprietaires: boolean
 }
 
 const PAR_DEFAUT: ParametresPublics = {
@@ -33,6 +35,8 @@ const PAR_DEFAUT: ParametresPublics = {
   photo_taille_max_mo: 10,
   photo_dimension_min: 400,
   nsfw_seuil: 0.7,
+  kyc_actif: false,
+  kyc_proprietaires: false,
 }
 
 export const parametres = ref<ParametresPublics>({ ...PAR_DEFAUT })
@@ -58,4 +62,10 @@ export async function maintenanceBloquante(): Promise<boolean> {
     derniereVerification = Date.now()
   }
   return dernierEtat && !estAdminCourant.value
+}
+
+/** Applique tout de suite l'état de maintenance reçu en temps réel (A5), sans attendre les 60 secondes du cache. */
+export function appliquerEtatMaintenance(actif: boolean): void {
+  dernierEtat = actif
+  derniereVerification = Date.now()
 }

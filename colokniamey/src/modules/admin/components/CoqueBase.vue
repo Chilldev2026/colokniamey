@@ -7,6 +7,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { icones } from '@/core/design/icones'
 import ConteneurToasts from '@/core/ui/ConteneurToasts.vue'
 import { direction } from '@/core/design/direction'
+import { parametres } from '@/core/parametres'
 import { useAuthStore } from '@/modules/auth'
 import { useAdminStore } from '../stores/adminStore'
 import { useSessionAdmin } from '../composables/useSessionAdmin'
@@ -115,6 +116,11 @@ async function seDeconnecter() {
     </aside>
 
     <div class="principal">
+      <!-- RGA15 : bandeau rouge permanent tant que la maintenance est active -->
+      <div v-if="parametres.maintenance_active" class="maintenance" role="alert">
+        Maintenance en cours : les utilisateurs ne peuvent plus écrire. Seuls les admins ont accès à l'application.
+        <RouterLink v-if="auth.role === 'super_admin'" to="/admin/maintenance">Gérer</RouterLink>
+      </div>
       <header class="barre-haute">
         <button type="button" class="burger" aria-label="Ouvrir le menu" :aria-expanded="ouvert" @click="ouvert = !ouvert">
           <component :is="icones.menu" :size="24" :stroke-width="2" aria-hidden="true" />
@@ -282,6 +288,15 @@ async function seDeconnecter() {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+.maintenance {
+  padding: var(--e2) var(--e4);
+  background: var(--erreur);
+  color: #ffffff;
+  font-weight: 700;
+}
+.maintenance a {
+  color: #ffffff;
 }
 .barre-haute {
   display: flex;

@@ -24,12 +24,14 @@ describe('menu de la coque (RGA26)', () => {
     const libelles = construireMenu(routesEnfantsAdmin, 'admin').map((e) => e.libelle)
     expect(libelles).toContain('Utilisateurs')
     expect(libelles).not.toContain('Administrateurs')
+    // Maintenance et Paramètres sont visibles en lecture seule (RGA26)
+    expect(libelles).toEqual(expect.arrayContaining(['Maintenance', 'Paramètres', 'Référentiel']))
   })
 
   it('montre au super-admin la page Administrateurs, Pilotage avant Opérations', () => {
     const menu = construireMenu(routesEnfantsAdmin, 'super_admin')
-    expect(menu.map((e) => e.libelle)).toEqual(['Administrateurs', 'Utilisateurs'])
-    expect(menu.map((e) => e.section)).toEqual(['pilotage', 'operations'])
+    expect(menu.map((e) => e.libelle)).toEqual(['Administrateurs', 'Maintenance', 'Paramètres', 'Utilisateurs', 'Référentiel'])
+    expect(menu.map((e) => e.section)).toEqual(['pilotage', 'pilotage', 'pilotage', 'operations', 'operations'])
   })
 
   it('ne construit aucun menu pour un étudiant, un propriétaire ou un visiteur', () => {
@@ -39,6 +41,7 @@ describe('menu de la coque (RGA26)', () => {
   })
 
   it('a pour accueil la première page autorisée du menu de chaque rôle', () => {
+    // L'admin arrive sur son travail (opérations) ; le super-admin sur le pilotage
     expect(accueilAdmin(routesEnfantsAdmin, 'admin')).toBe('/admin/utilisateurs')
     expect(accueilAdmin(routesEnfantsAdmin, 'super_admin')).toBe('/admin/administrateurs')
   })
