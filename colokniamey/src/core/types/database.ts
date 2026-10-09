@@ -1246,7 +1246,28 @@ export type Database = {
           },
         ]
       }
+      file_annonces: {
+        Row: {
+          nombre: number | null
+          plus_ancien: string | null
+        }
+        Relationships: []
+      }
+      file_contenus: {
+        Row: {
+          nombre: number | null
+          plus_ancien: string | null
+        }
+        Relationships: []
+      }
       file_identites: {
+        Row: {
+          nombre: number | null
+          plus_ancien: string | null
+        }
+        Relationships: []
+      }
+      file_photos: {
         Row: {
           nombre: number | null
           plus_ancien: string | null
@@ -1421,9 +1442,11 @@ export type Database = {
         Returns: undefined
       }
       alertes_files: { Args: never; Returns: number }
+      annonce_a_moderer: { Args: { p_id: number }; Returns: Json }
       annuler_kyc: { Args: never; Returns: undefined }
       anonymiser_compte: { Args: { p_uid: string }; Returns: undefined }
       archiver_annonce: { Args: { p_annonce_id: number }; Returns: undefined }
+      auteur_actif: { Args: { p_uid: string }; Returns: boolean }
       autoriser_consultation_kyc: {
         Args: { p_id: string; p_image: string }
         Returns: string
@@ -1455,6 +1478,7 @@ export type Database = {
           whatsapp: string
         }[]
       }
+      contenu_a_verifier: { Args: { p_id: number }; Returns: Json }
       controler_acteur_admin: {
         Args: {
           p_acteur: string
@@ -1487,6 +1511,10 @@ export type Database = {
         Args: { p_contexte?: string; p_texte: string }
         Returns: string
       }
+      decider_contenu: {
+        Args: { p_id: number; p_motif?: string; p_publier: boolean }
+        Returns: undefined
+      }
       decider_kyc: {
         Args: { p_id: string; p_motif?: string; p_valide: boolean }
         Returns: undefined
@@ -1503,6 +1531,10 @@ export type Database = {
       }
       definir_preferences_admin: {
         Args: { p_alertes: boolean; p_recap: boolean }
+        Returns: undefined
+      }
+      definir_terme_actif: {
+        Args: { p_actif: boolean; p_id: number }
         Returns: undefined
       }
       demarrer_kyc: {
@@ -1641,6 +1673,30 @@ export type Database = {
           telephone: string
         }[]
       }
+      liste_annonces_a_valider: {
+        Args: never
+        Returns: {
+          auteur_id: string
+          en_revue: boolean
+          id: number
+          initiale_nom: string
+          partie_le: string
+          prenom: string
+          titre: string
+          type: string
+        }[]
+      }
+      liste_contenus_a_verifier: {
+        Args: never
+        Returns: {
+          auteur_id: string
+          categories: string[]
+          created_at: string
+          id: number
+          prenom: string
+          type_contenu: string
+        }[]
+      }
       liste_dossiers_kyc: {
         Args: { p_statut?: string }
         Returns: {
@@ -1663,6 +1719,29 @@ export type Database = {
           valeur: Json
         }[]
       }
+      liste_photos_a_valider: {
+        Args: never
+        Returns: {
+          auteur_id: string
+          chemin: string
+          created_at: string
+          id: number
+          initiale_nom: string
+          prenom: string
+          suspecte: boolean
+          usage: string
+        }[]
+      }
+      liste_recidives: {
+        Args: never
+        Returns: {
+          dernier: string
+          initiale_nom: string
+          nombre: number
+          prenom: string
+          user_id: string
+        }[]
+      }
       liste_relances: {
         Args: never
         Returns: {
@@ -1673,6 +1752,20 @@ export type Database = {
           id: number
           motif: string
           vu_le: string
+        }[]
+      }
+      liste_termes: {
+        Args: never
+        Returns: {
+          actif: boolean
+          categorie: string
+          created_at: string
+          id: number
+          langue: string
+          niveau: string
+          propose_par_moi: boolean
+          terme: string
+          valide: boolean
         }[]
       }
       liste_utilisateurs: {
@@ -1717,6 +1810,16 @@ export type Database = {
         Args: { p_cle: string; p_valeur: Json }
         Returns: undefined
       }
+      modifier_terme: {
+        Args: {
+          p_categorie: string
+          p_id: number
+          p_langue: string
+          p_niveau: string
+          p_terme: string
+        }
+        Returns: undefined
+      }
       mon_avatar: {
         Args: never
         Returns: {
@@ -1742,6 +1845,7 @@ export type Database = {
           verso: boolean
         }[]
       }
+      motif_moderation: { Args: { p_motif: string }; Returns: string }
       normaliser_texte: {
         Args: { p_texte: string; p_variante?: number }
         Returns: string
@@ -1792,6 +1896,15 @@ export type Database = {
           universite: string
         }[]
       }
+      proposer_terme: {
+        Args: {
+          p_categorie: string
+          p_langue?: string
+          p_niveau: string
+          p_terme: string
+        }
+        Returns: number
+      }
       quota_anonyme: {
         Args: { p_action: string; p_session: string }
         Returns: boolean
@@ -1801,6 +1914,11 @@ export type Database = {
         Args: { p_role: Database["public"]["Enums"]["role_utilisateur"] }
         Returns: number
       }
+      refuser_annonce: {
+        Args: { p_id: number; p_motif: string }
+        Returns: undefined
+      }
+      rejeter_terme: { Args: { p_id: number }; Returns: undefined }
       relancer_admin: {
         Args: { p_canal: string; p_cible: string; p_motif?: string }
         Returns: {
@@ -1811,11 +1929,17 @@ export type Database = {
         }[]
       }
       resume_files_admin: { Args: never; Returns: string }
+      retirer_annonce: {
+        Args: { p_id: number; p_motif: string }
+        Returns: undefined
+      }
       rouvrir_annonce: { Args: { p_annonce_id: number }; Returns: undefined }
       signaler_activite_admin: { Args: never; Returns: undefined }
       soumettre_annonce: { Args: { p_annonce_id: number }; Returns: string }
       soumettre_kyc: { Args: { p_type_piece: string }; Returns: undefined }
       taches_planifiees: { Args: never; Returns: undefined }
+      valider_annonce: { Args: { p_id: number }; Returns: undefined }
+      valider_terme: { Args: { p_id: number }; Returns: undefined }
       verifier_empreinte: {
         Args: { p_auteur: string; p_empreinte: string }
         Returns: boolean

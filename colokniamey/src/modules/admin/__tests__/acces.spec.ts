@@ -30,8 +30,10 @@ describe('menu de la coque (RGA26)', () => {
 
   it('montre au super-admin la page Administrateurs, Pilotage avant Opérations', () => {
     const menu = construireMenu(routesEnfantsAdmin, 'super_admin')
-    expect(menu.map((e) => e.libelle)).toEqual(['Administrateurs', 'Maintenance', 'Paramètres', 'Utilisateurs', 'Référentiel'])
-    expect(menu.map((e) => e.section)).toEqual(['pilotage', 'pilotage', 'pilotage', 'operations', 'operations'])
+    expect(menu.map((e) => e.libelle)).toEqual([
+      'Administrateurs', 'Maintenance', 'Paramètres', 'Utilisateurs', 'Annonces', 'Photos', 'Contenus', 'Termes sensibles', 'Référentiel',
+    ])
+    expect(menu.map((e) => e.section)).toEqual(['pilotage', 'pilotage', 'pilotage', 'operations', 'operations', 'operations', 'operations', 'operations', 'operations'])
   })
 
   it('ne construit aucun menu pour un étudiant, un propriétaire ou un visiteur', () => {
