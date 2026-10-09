@@ -28,27 +28,29 @@ const id = useId()
 .champ {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--e1);
 }
 label {
-  font-weight: 600;
+  color: var(--texte-secondaire);
+  font-size: var(--texte-s);
+  font-weight: 700;
 }
 select {
   min-height: var(--cible-min);
-  padding: 0 0.75rem;
-  border: 1px solid var(--bordure-champ);
-  border-radius: var(--rayon);
+  padding: 0 var(--e3);
+  border: 1.5px solid var(--bordure-champ);
+  border-radius: var(--rayon-s);
   background: var(--surface);
   color: var(--encre);
   font: inherit;
+  font-size: 1rem;
 }
-select:focus-visible {
-  outline: 2px solid var(--indigo);
-  outline-offset: 1px;
+select[aria-invalid='true'] {
+  border-color: var(--erreur);
 }
 .erreur {
   margin: 0;
-  color: var(--orange);
-  font-size: 0.9rem;
+  color: var(--erreur);
+  font-size: var(--texte-s);
 }
 </style>

@@ -40,6 +40,16 @@ export const routesCore: RouteRecordRaw[] = [
   },
 ]
 
+// Catalogue des composants : accessible en développement uniquement (module D)
+if (import.meta.env.DEV) {
+  routesCore.push({
+    path: '/design-system',
+    name: 'design-system',
+    component: () => import('./views/DesignSystemView.vue'),
+    meta: { module: 'core', titre: 'Design system', horsMaintenance: true },
+  })
+}
+
 // Doit rester la dernière route de la liste finale
 export const routeIntrouvable: RouteRecordRaw = {
   path: '/:chemin(.*)*',
@@ -48,4 +58,4 @@ export const routeIntrouvable: RouteRecordRaw = {
   meta: { module: 'core', titre: 'Page introuvable', horsMaintenance: true },
 }
 
-export const menuCore = [{ libelle: 'Accueil', vers: '/' }]
+export const menuCore = [{ libelle: 'Accueil', vers: '/', icone: 'accueil' }]

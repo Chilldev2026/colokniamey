@@ -7,7 +7,7 @@ import { supabase } from './core/supabase'
 import { demarrerCaptureErreurs } from './core/observabilite/erreurs'
 import { demarrerMesures } from './core/observabilite/mesures'
 import { chargerParametres } from './core/parametres'
-import './core/ui/jetons.css'
+import './core/design/tokens.css'
 
 const app = createApp(App)
 

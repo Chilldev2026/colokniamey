@@ -1,0 +1,103 @@
+/* Jetons de design « Banco et indigo » (module D).
+   Règles : aucune ombre portée, aucun dégradé, aucun effet réservé au survol.
+   La profondeur vient des fonds et des bordures fines. */
+
+@import '@fontsource-variable/bricolage-grotesque/wght.css';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+
+:root {
+  /* Couleurs */
+  --fond: #f5f6f8;
+  --surface: #ffffff;
+  --encre: #14161b;
+  --texte-secondaire: #5b6270;
+  --bordure: #e3e6ec;
+  --bordure-champ: #d3d8e0;
+  --indigo: #1e3966;
+  --indigo-fonce: #142849;
+  --indigo-pale: #e3e8f2;
+  --orange: #c4520f; /* boutons, texte blanc dessus */
+  --orange-decor: #e8661c; /* décor uniquement, jamais pour du texte */
+  --vert: #2c7a4b;
+  --terre-cuite: #b8643e; /* fonds de photo */
+  --erreur: #b3261e;
+
+  /* Typographie */
+  --police-titre: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  --police-texte: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --texte-s: 0.8125rem;
+  --texte-m: 1rem;
+  --texte-l: 1.25rem;
+  --texte-xl: 2.125rem;
+
+  /* Espacements : base de 4 px */
+  --e1: 4px;
+  --e2: 8px;
+  --e3: 12px;
+  --e4: 16px;
+  --e5: 20px;
+  --e6: 24px;
+  --e8: 32px;
+
+  /* Rayons */
+  --rayon-s: 10px;
+  --rayon: 12px;
+  --rayon-l: 16px;
+  --rayon-rond: 999px;
+
+  /* Durées et courbe des animations */
+  --duree-rapide: 150ms;
+  --duree-normale: 250ms;
+  --duree-lente: 400ms;
+  --courbe: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Accessibilité */
+  --cible-min: 44px;
+  --focus: 0 0 0 3px var(--indigo-pale), 0 0 0 5px var(--indigo);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--police-texte);
+  font-size: var(--texte-m);
+  line-height: 1.45;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--police-titre);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+a {
+  color: var(--indigo);
+}
+
+/* Focus toujours visible, au clavier comme au toucher assisté */
+:focus-visible {
+  outline: 3px solid var(--indigo);
+  outline-offset: 2px;
+}
+
+/* Tout est désactivé si l'utilisateur a demandé moins d'animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

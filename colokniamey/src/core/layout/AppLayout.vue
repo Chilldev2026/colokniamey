@@ -1,16 +1,19 @@
 <script setup lang="ts">
-// Layout mobile d'abord : en-tête, menu, zone de communiqué, contenu, pied de page.
-import { computed, ref } from 'vue'
+// Layout mobile d'abord : en-tête avec ruban, zone de communiqué, contenu, pied de page,
+// barre de navigation basse.
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import type { EntreeMenu } from '../modules/types'
 import { roleAutorise } from '../acces'
+import { direction } from '../design/direction'
+import MotifRuban from '../design/MotifRuban.vue'
 import BoutonInstaller from '../pwa/BoutonInstaller.vue'
+import BarreNavigation from '../ui/BarreNavigation.vue'
 import ConteneurToasts from '../ui/ConteneurToasts.vue'
 
 const props = defineProps<{ menu: EntreeMenu[] }>()
 
 const route = useRoute()
-const menuOuvert = ref(false)
 
 // Le menu ne montre que les entrées autorisées pour le rôle (RGA26)
 const entrees = computed(() => props.menu.filter((e) => roleAutorise(e.roles)))
@@ -19,36 +22,19 @@ const entrees = computed(() => props.menu.filter((e) => roleAutorise(e.roles)))
 <template>
   <div class="app">
     <header class="entete">
-      <RouterLink to="/" class="marque">ColokNiamey</RouterLink>
-      <BoutonInstaller />
-      <button
-        class="burger"
-        type="button"
-        :aria-expanded="menuOuvert"
-        aria-controls="menu-principal"
-        @click="menuOuvert = !menuOuvert"
-      >
-        Menu
-      </button>
-    </header>
-
-    <nav id="menu-principal" class="menu" :class="{ ouvert: menuOuvert }" aria-label="Navigation principale">
-      <RouterLink
-        v-for="e in entrees"
-        :key="e.vers"
-        :to="e.vers"
-        @click="menuOuvert = false"
-      >
-        {{ e.libelle }}
+      <RouterLink to="/" class="marque" aria-label="ColokNiamey, accueil">
+        <span class="colok">Colok</span><span class="niamey">Niamey</span>
       </RouterLink>
-    </nav>
+      <BoutonInstaller />
+    </header>
+    <MotifRuban />
 
     <!-- Zone réservée aux communiqués (module A4, phase 2) -->
     <div id="zone-communique" />
 
     <main class="contenu">
       <RouterView v-slot="{ Component }">
-        <Transition name="page" mode="out-in">
+        <Transition :name="`page-${direction}`" mode="out-in">
           <component :is="Component" :key="route.path" />
         </Transition>
       </RouterView>
@@ -60,6 +46,7 @@ const entrees = computed(() => props.menu.filter((e) => roleAutorise(e.roles)))
       <RouterLink to="/installer">Installer l'application</RouterLink>
     </footer>
 
+    <BarreNavigation :entrees="entrees" class="nav" />
     <ConteneurToasts />
   </div>
 </template>
@@ -72,63 +59,40 @@ const entrees = computed(() => props.menu.filter((e) => roleAutorise(e.roles)))
 }
 .entete {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--e3);
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid var(--bordure);
-  background: var(--surface);
+  padding: 14px var(--e5) 10px;
 }
 .marque {
-  color: var(--indigo);
-  font-size: 1.2rem;
+  font-family: var(--police-titre);
+  font-size: 1.5rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
   text-decoration: none;
 }
-.burger {
-  min-width: var(--cible-min);
-  min-height: var(--cible-min);
-  border: 1px solid var(--bordure-champ);
-  border-radius: var(--rayon);
-  background: var(--surface);
-  font: inherit;
-}
-.menu {
-  display: none;
-  flex-direction: column;
-  border-bottom: 1px solid var(--bordure);
-  background: var(--surface);
-}
-.menu.ouvert {
-  display: flex;
-}
-.menu a {
-  display: flex;
-  align-items: center;
-  min-height: var(--cible-min);
-  padding: 0 1rem;
-  color: var(--encre);
-  text-decoration: none;
-}
-.menu a.router-link-exact-active {
+.colok {
   color: var(--indigo);
-  font-weight: 700;
+}
+.niamey {
+  color: var(--orange);
 }
 .contenu {
   flex: 1;
   width: 100%;
   max-width: 64rem;
   margin: 0 auto;
-  padding: 1rem;
+  padding: var(--e5);
+  overflow-x: hidden;
 }
 .pied {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
+  gap: var(--e2) var(--e5);
   justify-content: center;
-  padding: 1rem;
-  border-top: 1px solid var(--bordure);
-  background: var(--surface);
+  padding: var(--e3) var(--e4);
+  font-size: var(--texte-s);
 }
 .pied a {
   display: inline-flex;
@@ -136,28 +100,28 @@ const entrees = computed(() => props.menu.filter((e) => roleAutorise(e.roles)))
   min-height: var(--cible-min);
   color: var(--texte-secondaire);
 }
-@media (min-width: 768px) {
-  .burger {
-    display: none;
-  }
-  .menu {
-    display: flex;
-    flex-direction: row;
-  }
+.nav {
+  position: sticky;
+  bottom: 0;
 }
-/* Transition de page : seulement opacity et transform */
-.page-enter-active,
-.page-leave-active {
+
+/* Transitions de page : seulement opacity et transform, dans le sens de la navigation */
+.page-avant-enter-active,
+.page-avant-leave-active,
+.page-arriere-enter-active,
+.page-arriere-leave-active {
   transition:
     opacity var(--duree-normale) var(--courbe),
     transform var(--duree-normale) var(--courbe);
 }
-.page-enter-from {
+.page-avant-enter-from,
+.page-arriere-leave-to {
   opacity: 0;
-  transform: translateX(1rem);
+  transform: translateX(24px);
 }
-.page-leave-to {
+.page-avant-leave-to,
+.page-arriere-enter-from {
   opacity: 0;
-  transform: translateX(-1rem);
+  transform: translateX(-24px);
 }
 </style>

@@ -4,6 +4,7 @@ import { menuCore, routeIntrouvable, routesCore } from '@/core/routes'
 import { roleAutorise } from '@/core/acces'
 import { maintenanceBloquante } from '@/core/parametres'
 import { definirModuleCourant } from '@/core/observabilite/contexte'
+import { mettreAJourDirection } from '@/core/design/direction'
 import { enregistrerVisite } from '@/core/observabilite/visites'
 import { supabase } from '@/core/supabase'
 import type { EntreeMenu } from '@/core/modules/types'
@@ -35,6 +36,7 @@ router.beforeEach(async (to) => {
 })
 
 router.afterEach((to) => {
+  mettreAJourDirection()
   definirModuleCourant(to.meta.module)
   document.title = to.meta.titre ? `${to.meta.titre} — ColokNiamey` : 'ColokNiamey'
   // RGA18 : visite anonyme, chemin sans paramètres
