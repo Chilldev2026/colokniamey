@@ -15,6 +15,9 @@ export interface ParametresPublics {
   version_cgu: string
   inactivite_etudiant_jours: number
   inactivite_proprietaire_jours: number
+  photo_taille_max_mo: number
+  photo_dimension_min: number
+  nsfw_seuil: number
 }
 
 const PAR_DEFAUT: ParametresPublics = {
@@ -27,6 +30,9 @@ const PAR_DEFAUT: ParametresPublics = {
   version_cgu: '1.0',
   inactivite_etudiant_jours: 7,
   inactivite_proprietaire_jours: 14,
+  photo_taille_max_mo: 10,
+  photo_dimension_min: 400,
+  nsfw_seuil: 0.7,
 }
 
 export const parametres = ref<ParametresPublics>({ ...PAR_DEFAUT })

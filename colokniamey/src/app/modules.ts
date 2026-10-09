@@ -6,10 +6,12 @@
 import type { DefinitionModule } from '@/core/modules/types'
 import { referentielModule } from '@/modules/referentiel'
 import { authModule } from '@/modules/auth'
+import { securiteModule } from '@/modules/securite'
 
 export const modulesActifs: DefinitionModule[] = [
   referentielModule,
   authModule,
+  securiteModule,
   // Les modules suivants s'ajoutent ici au fil du développement :
   // profilsModule, annoncesModule…
 ]

@@ -104,11 +104,12 @@ export function servir(
       })
       const { data: profil } = await admin
         .from('profils')
-        .select('role')
+        .select('role, statut')
         .eq('id', data.user.id)
         .maybeSingle()
       const role = profil?.role as Role | undefined
-      if (!role || !rolesAutorises.includes(role)) {
+      // RG08 : un compte suspendu ou désactivé n'agit plus, même avec un jeton encore valide
+      if (profil?.statut !== 'actif' || !role || !rolesAutorises.includes(role)) {
         throw new ErreurHttp(403, 'Action non autorisée.')
       }
 

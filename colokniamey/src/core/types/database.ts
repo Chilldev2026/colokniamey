@@ -38,6 +38,48 @@ export type Database = {
         }
         Relationships: []
       }
+      contenus_en_revue: {
+        Row: {
+          auteur_id: string | null
+          categories: string[]
+          contenu_id: string
+          created_at: string
+          decide_le: string | null
+          decide_par: string | null
+          id: number
+          motif: string | null
+          raison: string
+          statut: string
+          type_contenu: string
+        }
+        Insert: {
+          auteur_id?: string | null
+          categories?: string[]
+          contenu_id: string
+          created_at?: string
+          decide_le?: string | null
+          decide_par?: string | null
+          id?: never
+          motif?: string | null
+          raison: string
+          statut?: string
+          type_contenu: string
+        }
+        Update: {
+          auteur_id?: string | null
+          categories?: string[]
+          contenu_id?: string
+          created_at?: string
+          decide_le?: string | null
+          decide_par?: string | null
+          id?: never
+          motif?: string | null
+          raison?: string
+          statut?: string
+          type_contenu?: string
+        }
+        Relationships: []
+      }
       erreurs: {
         Row: {
           derniere_vue: string
@@ -206,6 +248,56 @@ export type Database = {
         }
         Relationships: []
       }
+      photos: {
+        Row: {
+          chemin: string
+          created_at: string
+          decide_le: string | null
+          decide_par: string | null
+          empreinte: string
+          id: number
+          motif: string | null
+          proprietaire_id: string
+          statut: string
+          suspecte: boolean
+          usage: string
+        }
+        Insert: {
+          chemin: string
+          created_at?: string
+          decide_le?: string | null
+          decide_par?: string | null
+          empreinte: string
+          id?: never
+          motif?: string | null
+          proprietaire_id: string
+          statut?: string
+          suspecte?: boolean
+          usage: string
+        }
+        Update: {
+          chemin?: string
+          created_at?: string
+          decide_le?: string | null
+          decide_par?: string | null
+          empreinte?: string
+          id?: never
+          motif?: string | null
+          proprietaire_id?: string
+          statut?: string
+          suspecte?: boolean
+          usage?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "photos_proprietaire_id_fkey"
+            columns: ["proprietaire_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profils: {
         Row: {
           cgu_acceptee_le: string
@@ -365,6 +457,45 @@ export type Database = {
           },
         ]
       }
+      termes_sensibles: {
+        Row: {
+          actif: boolean
+          categorie: string
+          created_at: string
+          id: number
+          langue: string
+          niveau: string
+          propose_par: string | null
+          terme: string
+          valide: boolean
+          valide_par: string | null
+        }
+        Insert: {
+          actif?: boolean
+          categorie: string
+          created_at?: string
+          id?: never
+          langue?: string
+          niveau: string
+          propose_par?: string | null
+          terme: string
+          valide?: boolean
+          valide_par?: string | null
+        }
+        Update: {
+          actif?: boolean
+          categorie?: string
+          created_at?: string
+          id?: never
+          langue?: string
+          niveau?: string
+          propose_par?: string | null
+          terme?: string
+          valide?: boolean
+          valide_par?: string | null
+        }
+        Relationships: []
+      }
       universites: {
         Row: {
           adresse: string | null
@@ -442,6 +573,30 @@ export type Database = {
           id?: never
           nom?: string
           rayon_km?: number
+        }
+        Relationships: []
+      }
+      violations: {
+        Row: {
+          auteur_id: string
+          categories: string[]
+          contexte: string
+          created_at: string
+          id: number
+        }
+        Insert: {
+          auteur_id: string
+          categories?: string[]
+          contexte: string
+          created_at?: string
+          id?: never
+        }
+        Update: {
+          auteur_id?: string
+          categories?: string[]
+          contexte?: string
+          created_at?: string
+          id?: never
         }
         Relationships: []
       }
@@ -611,6 +766,18 @@ export type Database = {
         }
         Returns: boolean
       }
+      controler_texte: {
+        Args: { p_contexte?: string; p_texte: string }
+        Returns: string
+      }
+      decider_photo: {
+        Args: { p_decision: string; p_motif?: string; p_photo_id: number }
+        Returns: string
+      }
+      distance_empreintes: {
+        Args: { p_a: string; p_b: string }
+        Returns: number
+      }
       en_maintenance: { Args: never; Returns: boolean }
       enregistrer_erreur: {
         Args: {
@@ -624,6 +791,10 @@ export type Database = {
       enregistrer_mesures: {
         Args: { p_lot: Json; p_session: string }
         Returns: undefined
+      }
+      enregistrer_photo: {
+        Args: { p_chemin: string; p_empreinte: string; p_usage: string }
+        Returns: number
       }
       enregistrer_visite: {
         Args: { p_appareil: string; p_chemin: string; p_session: string }
@@ -641,6 +812,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      normaliser_texte: {
+        Args: { p_texte: string; p_variante?: number }
+        Returns: string
+      }
       notifier: {
         Args: {
           p_destinataire: string
@@ -652,18 +827,37 @@ export type Database = {
       }
       parametres_publics: { Args: never; Returns: Json }
       peut_ecrire: { Args: never; Returns: boolean }
+      precontroler_photo: { Args: { p_empreinte: string }; Returns: undefined }
       quota_anonyme: {
         Args: { p_action: string; p_session: string }
         Returns: boolean
       }
+      quota_envoi_photo: { Args: never; Returns: boolean }
+      verifier_empreinte: {
+        Args: { p_auteur: string; p_empreinte: string }
+        Returns: boolean
+      }
       verifier_quota: { Args: { p_action: string }; Returns: undefined }
+      verifier_texte: {
+        Args: { p_contexte?: string; p_texte: string }
+        Returns: Database["public"]["CompositeTypes"]["resultat_verification"]
+        SetofOptions: {
+          from: "*"
+          to: "resultat_verification"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       role_utilisateur: "etudiant" | "proprietaire" | "admin" | "super_admin"
       statut_compte: "actif" | "suspendu" | "desactive"
     }
     CompositeTypes: {
-      [_ in never]: never
+      resultat_verification: {
+        issue: string | null
+        categories: string[] | null
+      }
     }
   }
 }
