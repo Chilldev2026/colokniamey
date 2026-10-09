@@ -1,11 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppLayout from '@/core/layout/AppLayout.vue'
+import { useMiseAJour } from '@/core/pwa/useMiseAJour'
+import { menu } from '@/app/router'
+
+// RG27 : toast de nouvelle version
+useMiseAJour()
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <AppLayout :menu="menu" />
 </template>
-
-<style scoped></style>

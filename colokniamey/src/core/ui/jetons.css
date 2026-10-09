@@ -1,0 +1,47 @@
+/* Jetons de base (couleurs et durées du module D « Banco et indigo »).
+   Pas d'ombre portée, pas de dégradé : la profondeur vient des fonds et des bordures. */
+:root {
+  --fond: #f5f6f8;
+  --surface: #ffffff;
+  --encre: #14161b;
+  --texte-secondaire: #5b6270;
+  --bordure: #e3e6ec;
+  --bordure-champ: #d3d8e0;
+  --indigo: #1e3966;
+  --orange: #c4520f;
+  --vert: #2c7a4b;
+  --terre-cuite: #b8643e;
+
+  --duree-rapide: 150ms;
+  --duree-normale: 250ms;
+  --duree-lente: 400ms;
+  --courbe: cubic-bezier(0, 0, 0.2, 1);
+
+  --rayon: 10px;
+  --cible-min: 44px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+/* Tout est désactivé si l'utilisateur a demandé moins d'animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
