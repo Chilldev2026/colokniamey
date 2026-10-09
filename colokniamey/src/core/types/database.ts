@@ -12,31 +12,6 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.18"
   }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       compteurs_quota: {
@@ -230,6 +205,126 @@ export type Database = {
           valeur?: Json
         }
         Relationships: []
+      }
+      profils: {
+        Row: {
+          cgu_acceptee_le: string
+          cgu_version: string
+          created_at: string
+          id: string
+          motif_suspension: string | null
+          nom: string
+          prenom: string
+          role: Database["public"]["Enums"]["role_utilisateur"]
+          statut: Database["public"]["Enums"]["statut_compte"]
+          suspendu_jusqua: string | null
+          telephone: string
+          updated_at: string
+        }
+        Insert: {
+          cgu_acceptee_le?: string
+          cgu_version: string
+          created_at?: string
+          id: string
+          motif_suspension?: string | null
+          nom: string
+          prenom: string
+          role?: Database["public"]["Enums"]["role_utilisateur"]
+          statut?: Database["public"]["Enums"]["statut_compte"]
+          suspendu_jusqua?: string | null
+          telephone: string
+          updated_at?: string
+        }
+        Update: {
+          cgu_acceptee_le?: string
+          cgu_version?: string
+          created_at?: string
+          id?: string
+          motif_suspension?: string | null
+          nom?: string
+          prenom?: string
+          role?: Database["public"]["Enums"]["role_utilisateur"]
+          statut?: Database["public"]["Enums"]["statut_compte"]
+          suspendu_jusqua?: string | null
+          telephone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profils_etudiants: {
+        Row: {
+          bio: string | null
+          budget_max: number | null
+          filiere: string | null
+          niveau_etude: string | null
+          universite_id: number
+          user_id: string
+        }
+        Insert: {
+          bio?: string | null
+          budget_max?: number | null
+          filiere?: string | null
+          niveau_etude?: string | null
+          universite_id: number
+          user_id: string
+        }
+        Update: {
+          bio?: string | null
+          budget_max?: number | null
+          filiere?: string | null
+          niveau_etude?: string | null
+          universite_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profils_etudiants_universite_id_fkey"
+            columns: ["universite_id"]
+            isOneToOne: false
+            referencedRelation: "universites"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profils_etudiants_universite_id_fkey"
+            columns: ["universite_id"]
+            isOneToOne: false
+            referencedRelation: "universites_geo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profils_etudiants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profils_proprietaires: {
+        Row: {
+          adresse: string | null
+          type_proprietaire: string
+          user_id: string
+        }
+        Insert: {
+          adresse?: string | null
+          type_proprietaire?: string
+          user_id: string
+        }
+        Update: {
+          adresse?: string | null
+          type_proprietaire?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profils_proprietaires_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       quartiers: {
         Row: {
@@ -506,6 +601,7 @@ export type Database = {
       }
     }
     Functions: {
+      accepter_cgu: { Args: { p_version: string }; Returns: undefined }
       consommer_quota: {
         Args: {
           p_action: string
@@ -533,6 +629,9 @@ export type Database = {
         Args: { p_appareil: string; p_chemin: string; p_session: string }
         Returns: undefined
       }
+      est_actif: { Args: never; Returns: boolean }
+      est_admin: { Args: never; Returns: boolean }
+      est_super_admin: { Args: never; Returns: boolean }
       journaliser: {
         Args: {
           p_action: string
@@ -552,6 +651,7 @@ export type Database = {
         Returns: undefined
       }
       parametres_publics: { Args: never; Returns: Json }
+      peut_ecrire: { Args: never; Returns: boolean }
       quota_anonyme: {
         Args: { p_action: string; p_session: string }
         Returns: boolean
@@ -559,7 +659,8 @@ export type Database = {
       verifier_quota: { Args: { p_action: string }; Returns: undefined }
     }
     Enums: {
-      [_ in never]: never
+      role_utilisateur: "etudiant" | "proprietaire" | "admin" | "super_admin"
+      statut_compte: "actif" | "suspendu" | "desactive"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -685,10 +786,10 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
-    Enums: {},
+    Enums: {
+      role_utilisateur: ["etudiant", "proprietaire", "admin", "super_admin"],
+      statut_compte: ["actif", "suspendu", "desactive"],
+    },
   },
 } as const

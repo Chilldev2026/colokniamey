@@ -39,5 +39,9 @@ declare module 'vue-router' {
     titre?: string
     /** Reste affichable pendant la maintenance. */
     horsMaintenance?: boolean
+    /** Renvoie vers la connexion si la personne n'est pas connectée. */
+    connexionRequise?: boolean
+    /** Réservée aux visiteurs : une personne connectée est renvoyée vers son espace. */
+    visiteurSeulement?: boolean
   }
 }

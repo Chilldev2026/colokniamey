@@ -1,5 +1,5 @@
-// Rôle de la personne connectée, tel que le module des comptes (M2) le renseignera.
-// Le socle ne connaît pas l'authentification : il lit seulement cette valeur.
+// Rôle de la personne connectée, tel que le module des comptes (M2) le renseigne.
+// Le socle ne connaît pas l'authentification : il lit seulement ces valeurs.
 // Ce contrôle sert à l'affichage ; la vraie protection reste la RLS (RGA27).
 
 import { computed, ref } from 'vue'
@@ -20,3 +20,18 @@ export function roleAutorise(roles: Role[] | undefined): boolean {
   if (!roles || roles.length === 0) return true
   return roleCourant.value !== null && roles.includes(roleCourant.value)
 }
+
+// Les gardes de route attendent que la session soit restaurée avant de décider :
+// sinon un utilisateur connecté serait renvoyé vers la connexion à chaque rechargement.
+let attente: Promise<void> = Promise.resolve()
+
+export function declarerAttenteAuth(restauration: Promise<void>): void {
+  attente = restauration
+}
+
+export function attendreAuth(): Promise<void> {
+  return attente
+}
+
+export const CHEMIN_CONNEXION = '/connexion'
+export const CHEMIN_APRES_CONNEXION = '/compte'

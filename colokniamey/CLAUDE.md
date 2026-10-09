@@ -114,7 +114,11 @@ Chaque module contient : `index.ts` (son contrat public : routes, menu, API), `r
 
 **Avancement**
 - [x] Projet Vue 3 + TS créé, dépôt GitHub `colokniamey`, nouveau projet Supabase
-- [ ] M0 … (cocher au fur et à mesure)
+- [x] M0 Socle et PWA
+- [x] D Identité visuelle
+- [x] M1 Référentiel géographique
+- [x] M2 Comptes et authentification
+- [ ] S … (cocher au fur et à mesure)
 
 ## Rôles
 `etudiant`, `proprietaire`, `admin`, `super_admin`. Une inscription ne peut créer qu'un `etudiant` ou un `proprietaire`. Le premier super-admin est créé par script SQL.

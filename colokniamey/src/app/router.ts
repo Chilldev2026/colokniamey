@@ -1,7 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { modulesActifs } from './modules'
 import { menuCore, routeIntrouvable, routesCore } from '@/core/routes'
-import { roleAutorise } from '@/core/acces'
+import {
+  attendreAuth,
+  CHEMIN_APRES_CONNEXION,
+  CHEMIN_CONNEXION,
+  roleAutorise,
+  roleCourant,
+} from '@/core/acces'
 import { maintenanceBloquante } from '@/core/parametres'
 import { definirModuleCourant } from '@/core/observabilite/contexte'
 import { mettreAJourDirection } from '@/core/design/direction'
@@ -24,9 +30,20 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  // On attend la restauration de la session avant toute décision (M2)
+  await attendreAuth()
+
   // RGA16 : en maintenance, seuls les admins accèdent à l'application
   if (!to.meta.horsMaintenance && (await maintenanceBloquante())) {
     return { name: 'maintenance' }
+  }
+  // Page réservée aux visiteurs (connexion, inscription) : une personne connectée va à son espace
+  if (to.meta.visiteurSeulement && roleCourant.value !== null) {
+    return CHEMIN_APRES_CONNEXION
+  }
+  // Page qui exige une connexion : retour à la page voulue après la connexion
+  if (to.meta.connexionRequise && roleCourant.value === null) {
+    return { path: CHEMIN_CONNEXION, query: { redirect: to.fullPath } }
   }
   // RGA26 : une route interdite renvoie vers l'accueil
   if (!roleAutorise(to.meta.roles)) {

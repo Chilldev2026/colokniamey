@@ -3,10 +3,11 @@ import { onBeforeUnmount, watch } from 'vue'
 
 const ouverte = defineModel<boolean>({ required: true })
 
-defineProps<{ titre: string }>()
+const props = defineProps<{ titre: string; bloquante?: boolean }>()
 
+// Une fenêtre bloquante ne se ferme ni par un clic à côté ni par Échap (ex. nouvelles conditions)
 function fermer() {
-  ouverte.value = false
+  if (!props.bloquante) ouverte.value = false
 }
 
 function surTouche(e: KeyboardEvent) {

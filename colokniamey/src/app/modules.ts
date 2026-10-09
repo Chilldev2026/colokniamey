@@ -5,9 +5,11 @@
 
 import type { DefinitionModule } from '@/core/modules/types'
 import { referentielModule } from '@/modules/referentiel'
+import { authModule } from '@/modules/auth'
 
 export const modulesActifs: DefinitionModule[] = [
   referentielModule,
+  authModule,
   // Les modules suivants s'ajoutent ici au fil du développement :
-  // authModule, profilsModule, annoncesModule…
+  // profilsModule, annoncesModule…
 ]
