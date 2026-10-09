@@ -1,0 +1,111 @@
+﻿type;nom;sigle;arrondissement;quartier;latitude;longitude;source;a_faire
+ville;Niamey;;;;13.51361;2.10972;https://www.geonames.org (Niamey : 13°30′49″N, 2°6′35″E);"Vérifier ; fixer rayon_km de la ville"
+quartier;Bobiel;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Château 1;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Cité chinoise;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Corniche Yantala;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Francophonie;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Garde Présidentielle;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Gendarmerie;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Goudel;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Grande Gendarmerie;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Hôpital National;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Koira Kano;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Koubia du Nord;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Koubia Sud;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Losso Goungou;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Plateau 2;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Résidence Ministérielle;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Riyad;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Satu Sa;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;SONUCI;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;SOS Village d'Enfants;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Tchangarey;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Yantala Haut;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Yantala Bas;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Peau de Yantala;;Niamey I;;;;https://fr.wikipedia.org/wiki/Niamey_I (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Banifandou I;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Banizoumbou II;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Boukoki I;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Boukoki II;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Boukoki III;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Cité Député;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Dan Zama Koira;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Dar Es Salam;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Deyzeibon;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Djeddah Koira Mè;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Gandatché;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Issa Béri;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Koira Tagui;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Kombo;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Lazaret;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Maourey;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Nord Faisceau;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Nord Lazaret;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Tourakou;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Zongo;;Niamey II;;;;https://fr.wikipedia.org/wiki/Niamey_II (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Abidjan;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Bandabari;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Banifandou II;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Banizoumbou;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Boukoki IV;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Cité Caisse;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Cité Fayçal;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Collège Mariama;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Couronne Nord;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Kalley Centre;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Kalley Est;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Kalley Sud;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Lacouroussou;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Madina;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Nouveau Marché;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Poudrière;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Terminus;;Niamey III;;;;https://fr.wikipedia.org/wiki/Niamey_III (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Aéroport I;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Aéroport II;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Camp Bagagi;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Génie Militaire;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Cité Asecna;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Escadrille;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Gamkalley Golley;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Gamkalley Sébanguey;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Kaf Kouara;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Koubo Mè;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Logement Militaire;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Niamey 2000;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Niamey IV;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Pays Bas-Tondi Gammé;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Prytanée Militaire;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Route Filingué;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Route Tchanga;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saga Fandou;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saga Fondobon;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saga Gassia Kouara;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saga Goungou;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saga Sahara;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saga Sambou Koira;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Sary Koubou;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Talladjé;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Talladjé Est;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Touré Koara;;Niamey IV;;;;https://fr.wikipedia.org/wiki/Niamey_IV (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;AGRHYMET;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Banga Bana;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Gawèye;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Hôpital Gawèye;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Hôpital Lamordé;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;INJS/C;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Karadjé;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Kirkissoye;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Lamordé;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Nogaré;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Nordiré;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Pont Kennedy;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Saguia;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+quartier;Séno;;Niamey V;;;;https://fr.wikipedia.org/wiki/Niamey_V (d'après INS, Répertoire national des localités, RGPH 2012);Centre facultatif : coordonnées à relever
+universite;Université Abdou Moumouni;UAM;;Harobanda (rive droite);13.500831;2.092500;https://latitude.to/articles-by-country/ne/niger/141484/abdou-moumouni-university (origine non précisée);"À VÉRIFIER : point unique pour un grand campus ; choisir l'entrée principale"
+universite;Université Privée l'Élite de Niamey;UPEN;;Lazaret Nord;;;https://simoon-cv.com/blog/ecoles-privees-reconnues-niger-2026;"Vérifier le quartier ; coordonnées à relever ; introuvable en ligne (site officiel inaccessible ou sans carte)"
+universite;Université Privée Entente Internationale;UPEI;Niamey I;;;;https://simoon-cv.com/blog/ecoles-privees-reconnues-niger-2026;"Quartier et coordonnées à relever ; introuvable en ligne (site officiel inaccessible ou sans carte)"
+universite;Institut Africain de Technologie;IAT;Niamey I;Yantala (Rond-point Gadafawa, derrière la station Total);13.532711;2.081680;https://www.iatniger.org/contact (carte OpenStreetMap du site officiel);Vérifier sur place
+universite;École Privée d'Ingénierie du Niger;EPI;;Échangeur Mali Béro, en face du Ministère de la Justice;13.532121;2.105012;https://epiniger.edu.ne/ (carte Google Maps du site officiel);Vérifier sur place
+universite;École de Commerce, de Communication, d'Administration et de Management;ECCAM;;"Siège : [INFORMATION MANQUANTE] ; annexe : Boukoki 2, rue de Arewa";;;https://legrandfrere.africa/etablissement/ecole-de-commerce-de-communication-dadministration-et-de-management-eccam/;"Adresse du siège et coordonnées à relever ; introuvable en ligne (site officiel inaccessible ou sans carte)"
+universite;[INFORMATION MANQUANTE] Autres établissements fréquentés par vos futurs utilisateurs;;;;;;;À compléter

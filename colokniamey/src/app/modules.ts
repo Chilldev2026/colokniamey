@@ -4,8 +4,10 @@
 // M0 (le socle) n'est pas un module optionnel : il est branché directement dans router.ts.
 
 import type { DefinitionModule } from '@/core/modules/types'
+import { referentielModule } from '@/modules/referentiel'
 
 export const modulesActifs: DefinitionModule[] = [
+  referentielModule,
   // Les modules suivants s'ajoutent ici au fil du développement :
   // authModule, profilsModule, annoncesModule…
 ]

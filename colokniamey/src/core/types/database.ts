@@ -231,6 +231,125 @@ export type Database = {
         }
         Relationships: []
       }
+      quartiers: {
+        Row: {
+          centre: unknown
+          commune: string | null
+          id: number
+          nom: string
+          ville_id: number
+        }
+        Insert: {
+          centre?: unknown
+          commune?: string | null
+          id?: never
+          nom: string
+          ville_id: number
+        }
+        Update: {
+          centre?: unknown
+          commune?: string | null
+          id?: never
+          nom?: string
+          ville_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quartiers_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quartiers_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes_geo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      universites: {
+        Row: {
+          adresse: string | null
+          id: number
+          nom: string
+          position: unknown
+          quartier_id: number | null
+          sigle: string | null
+          ville_id: number
+        }
+        Insert: {
+          adresse?: string | null
+          id?: never
+          nom: string
+          position?: unknown
+          quartier_id?: number | null
+          sigle?: string | null
+          ville_id: number
+        }
+        Update: {
+          adresse?: string | null
+          id?: never
+          nom?: string
+          position?: unknown
+          quartier_id?: number | null
+          sigle?: string | null
+          ville_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "universites_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "universites_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers_geo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "universites_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "universites_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes_geo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      villes: {
+        Row: {
+          centre: unknown
+          id: number
+          nom: string
+          rayon_km: number
+        }
+        Insert: {
+          centre: unknown
+          id?: never
+          nom: string
+          rayon_km: number
+        }
+        Update: {
+          centre?: unknown
+          id?: never
+          nom?: string
+          rayon_km?: number
+        }
+        Relationships: []
+      }
       visites: {
         Row: {
           appareil: string
@@ -257,7 +376,134 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      quartiers_geo: {
+        Row: {
+          commune: string | null
+          id: number | null
+          latitude: number | null
+          longitude: number | null
+          nom: string | null
+          ville_id: number | null
+        }
+        Insert: {
+          commune?: string | null
+          id?: number | null
+          latitude?: never
+          longitude?: never
+          nom?: string | null
+          ville_id?: number | null
+        }
+        Update: {
+          commune?: string | null
+          id?: number | null
+          latitude?: never
+          longitude?: never
+          nom?: string | null
+          ville_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quartiers_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quartiers_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes_geo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      universites_geo: {
+        Row: {
+          adresse: string | null
+          id: number | null
+          latitude: number | null
+          longitude: number | null
+          nom: string | null
+          quartier_id: number | null
+          sigle: string | null
+          ville_id: number | null
+        }
+        Insert: {
+          adresse?: string | null
+          id?: number | null
+          latitude?: never
+          longitude?: never
+          nom?: string | null
+          quartier_id?: number | null
+          sigle?: string | null
+          ville_id?: number | null
+        }
+        Update: {
+          adresse?: string | null
+          id?: number | null
+          latitude?: never
+          longitude?: never
+          nom?: string | null
+          quartier_id?: number | null
+          sigle?: string | null
+          ville_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "universites_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "universites_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers_geo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "universites_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "universites_ville_id_fkey"
+            columns: ["ville_id"]
+            isOneToOne: false
+            referencedRelation: "villes_geo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      villes_geo: {
+        Row: {
+          id: number | null
+          latitude: number | null
+          longitude: number | null
+          nom: string | null
+          rayon_km: number | null
+        }
+        Insert: {
+          id?: number | null
+          latitude?: never
+          longitude?: never
+          nom?: string | null
+          rayon_km?: number | null
+        }
+        Update: {
+          id?: number | null
+          latitude?: never
+          longitude?: never
+          nom?: string | null
+          rayon_km?: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       consommer_quota: {
