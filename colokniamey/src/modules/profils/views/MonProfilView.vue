@@ -138,7 +138,7 @@ async function enregistrer() {
           <ChampUi
             v-model="donnees.budgetMax"
             libelle="Budget maximum par mois (FCFA)"
-            type="number"
+            inputmode="numeric"
             :erreur="erreurs.budgetMax"
           />
           <div class="champ-bio">

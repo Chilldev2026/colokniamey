@@ -9,6 +9,7 @@ import { authModule } from '@/modules/auth'
 import { securiteModule } from '@/modules/securite'
 import { profilsModule } from '@/modules/profils'
 import { identiteModule } from '@/modules/identite'
+import { annoncesModule } from '@/modules/annonces'
 import { adminModule } from '@/modules/admin'
 
 export const modulesActifs: DefinitionModule[] = [
@@ -17,7 +18,8 @@ export const modulesActifs: DefinitionModule[] = [
   securiteModule,
   profilsModule,
   identiteModule,
+  annoncesModule,
   adminModule,
   // Les modules suivants s'ajoutent ici au fil du développement :
-  // annoncesModule…
+  // recherche (M5), messagerie (M6)…
 ]

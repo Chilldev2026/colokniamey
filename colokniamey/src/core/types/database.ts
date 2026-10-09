@@ -14,6 +14,178 @@ export type Database = {
   }
   public: {
     Tables: {
+      annonce_equipements: {
+        Row: {
+          annonce_id: number
+          equipement_id: number
+        }
+        Insert: {
+          annonce_id: number
+          equipement_id: number
+        }
+        Update: {
+          annonce_id?: number
+          equipement_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "annonce_equipements_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonce_equipements_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonce_equipements_equipement_id_fkey"
+            columns: ["equipement_id"]
+            isOneToOne: false
+            referencedRelation: "equipements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      annonces: {
+        Row: {
+          age_max: number | null
+          age_min: number | null
+          auteur_id: string
+          charges_incluses: boolean
+          contact_appel: boolean
+          contact_whatsapp: boolean
+          created_at: string
+          description: string
+          disponible_le: string | null
+          duree_max_mois: number | null
+          duree_min_mois: number | null
+          en_revue: boolean
+          etudiants_uniquement: boolean
+          id: number
+          loyer_total_fcfa: number | null
+          montant_charges_fcfa: number | null
+          motif_refus: string | null
+          nb_places: number
+          part_mensuelle_fcfa: number
+          position: unknown
+          position_publique: unknown
+          precision_position: string
+          preference_genre: string
+          publiee_le: string | null
+          quartier_id: number
+          statut: Database["public"]["Enums"]["statut_annonce"]
+          titre: string
+          type: Database["public"]["Enums"]["type_annonce"]
+          universite_proche_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          age_max?: number | null
+          age_min?: number | null
+          auteur_id: string
+          charges_incluses?: boolean
+          contact_appel?: boolean
+          contact_whatsapp?: boolean
+          created_at?: string
+          description: string
+          disponible_le?: string | null
+          duree_max_mois?: number | null
+          duree_min_mois?: number | null
+          en_revue?: boolean
+          etudiants_uniquement?: boolean
+          id?: never
+          loyer_total_fcfa?: number | null
+          montant_charges_fcfa?: number | null
+          motif_refus?: string | null
+          nb_places?: number
+          part_mensuelle_fcfa: number
+          position?: unknown
+          position_publique?: unknown
+          precision_position?: string
+          preference_genre?: string
+          publiee_le?: string | null
+          quartier_id: number
+          statut?: Database["public"]["Enums"]["statut_annonce"]
+          titre: string
+          type: Database["public"]["Enums"]["type_annonce"]
+          universite_proche_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          age_max?: number | null
+          age_min?: number | null
+          auteur_id?: string
+          charges_incluses?: boolean
+          contact_appel?: boolean
+          contact_whatsapp?: boolean
+          created_at?: string
+          description?: string
+          disponible_le?: string | null
+          duree_max_mois?: number | null
+          duree_min_mois?: number | null
+          en_revue?: boolean
+          etudiants_uniquement?: boolean
+          id?: never
+          loyer_total_fcfa?: number | null
+          montant_charges_fcfa?: number | null
+          motif_refus?: string | null
+          nb_places?: number
+          part_mensuelle_fcfa?: number
+          position?: unknown
+          position_publique?: unknown
+          precision_position?: string
+          preference_genre?: string
+          publiee_le?: string | null
+          quartier_id?: number
+          statut?: Database["public"]["Enums"]["statut_annonce"]
+          titre?: string
+          type?: Database["public"]["Enums"]["type_annonce"]
+          universite_proche_id?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "annonces_auteur_id_fkey"
+            columns: ["auteur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers_geo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_universite_proche_id_fkey"
+            columns: ["universite_proche_id"]
+            isOneToOne: false
+            referencedRelation: "universites"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_universite_proche_id_fkey"
+            columns: ["universite_proche_id"]
+            isOneToOne: false
+            referencedRelation: "universites_geo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       compteurs_quota: {
         Row: {
           action: string
@@ -355,6 +527,49 @@ export type Database = {
           },
         ]
       }
+      photos_annonces: {
+        Row: {
+          annonce_id: number
+          id: number
+          ordre: number
+          photo_id: number
+        }
+        Insert: {
+          annonce_id: number
+          id?: never
+          ordre?: number
+          photo_id: number
+        }
+        Update: {
+          annonce_id?: number
+          id?: never
+          ordre?: number
+          photo_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "photos_annonces_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "photos_annonces_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "photos_annonces_photo_id_fkey"
+            columns: ["photo_id"]
+            isOneToOne: true
+            referencedRelation: "photos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       preferences_admin: {
         Row: {
           alertes_urgentes: boolean
@@ -575,6 +790,45 @@ export type Database = {
           },
         ]
       }
+      regles_annonce: {
+        Row: {
+          annonce_id: number
+          en_revue: boolean
+          id: number
+          ordre: number
+          texte: string
+        }
+        Insert: {
+          annonce_id: number
+          en_revue?: boolean
+          id?: never
+          ordre?: number
+          texte: string
+        }
+        Update: {
+          annonce_id?: number
+          en_revue?: boolean
+          id?: never
+          ordre?: number
+          texte?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "regles_annonce_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "regles_annonce_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       relances: {
         Row: {
           a: string
@@ -622,6 +876,51 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      taches_annonce: {
+        Row: {
+          annonce_id: number
+          en_revue: boolean
+          frequence: string
+          id: number
+          libelle: string
+          ordre: number
+          repartition: string
+        }
+        Insert: {
+          annonce_id: number
+          en_revue?: boolean
+          frequence: string
+          id?: never
+          libelle: string
+          ordre?: number
+          repartition: string
+        }
+        Update: {
+          annonce_id?: number
+          en_revue?: boolean
+          frequence?: string
+          id?: never
+          libelle?: string
+          ordre?: number
+          repartition?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "taches_annonce_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "taches_annonce_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       termes_sensibles: {
         Row: {
@@ -878,6 +1177,75 @@ export type Database = {
       }
     }
     Views: {
+      annonces_publiques: {
+        Row: {
+          age_max: number | null
+          age_min: number | null
+          auteur_id: string | null
+          charges_incluses: boolean | null
+          contact_appel: boolean | null
+          contact_whatsapp: boolean | null
+          description: string | null
+          disponible_le: string | null
+          distance_universite_m: number | null
+          duree_max_mois: number | null
+          duree_min_mois: number | null
+          etudiants_uniquement: boolean | null
+          id: number | null
+          latitude: number | null
+          longitude: number | null
+          loyer_total_fcfa: number | null
+          montant_charges_fcfa: number | null
+          nb_places: number | null
+          part_mensuelle_fcfa: number | null
+          photo_chemin: string | null
+          precision_position: string | null
+          preference_genre: string | null
+          publiee_le: string | null
+          quartier_id: number | null
+          titre: string | null
+          type: Database["public"]["Enums"]["type_annonce"] | null
+          universite_proche_id: number | null
+          zone_rayon_m: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "annonces_auteur_id_fkey"
+            columns: ["auteur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_quartier_id_fkey"
+            columns: ["quartier_id"]
+            isOneToOne: false
+            referencedRelation: "quartiers_geo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_universite_proche_id_fkey"
+            columns: ["universite_proche_id"]
+            isOneToOne: false
+            referencedRelation: "universites"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "annonces_universite_proche_id_fkey"
+            columns: ["universite_proche_id"]
+            isOneToOne: false
+            referencedRelation: "universites_geo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       file_identites: {
         Row: {
           nombre: number | null
@@ -1055,6 +1423,7 @@ export type Database = {
       alertes_files: { Args: never; Returns: number }
       annuler_kyc: { Args: never; Returns: undefined }
       anonymiser_compte: { Args: { p_uid: string }; Returns: undefined }
+      archiver_annonce: { Args: { p_annonce_id: number }; Returns: undefined }
       autoriser_consultation_kyc: {
         Args: { p_id: string; p_image: string }
         Returns: string
@@ -1067,6 +1436,7 @@ export type Database = {
           plus_ancien: string
         }[]
       }
+      compteurs_utilisateur_annonces: { Args: { p_uid: string }; Returns: Json }
       compteurs_utilisateur_identite: { Args: { p_uid: string }; Returns: Json }
       consentir_kyc: { Args: never; Returns: undefined }
       consommer_quota: {
@@ -1077,6 +1447,13 @@ export type Database = {
           p_maximum: number
         }
         Returns: boolean
+      }
+      contact_annonce: {
+        Args: { p_annonce_id: number }
+        Returns: {
+          telephone: string
+          whatsapp: string
+        }[]
       }
       controler_acteur_admin: {
         Args: {
@@ -1198,6 +1575,7 @@ export type Database = {
         }[]
       }
       exiger_identite_verifiee: { Args: never; Returns: undefined }
+      exporter_donnees_annonces: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_identite: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
@@ -1379,6 +1757,25 @@ export type Database = {
       }
       parametres_publics: { Args: never; Returns: Json }
       peut_ecrire: { Args: never; Returns: boolean }
+      photo_principale_annonce: {
+        Args: { p_annonce_id: number }
+        Returns: string
+      }
+      photos_annonce: {
+        Args: { p_annonce_id: number }
+        Returns: {
+          chemin: string
+          ordre: number
+        }[]
+      }
+      position_annonce: {
+        Args: { p_annonce_id: number }
+        Returns: {
+          latitude: number
+          longitude: number
+          precision_position: string
+        }[]
+      }
       precontroler_photo: { Args: { p_empreinte: string }; Returns: undefined }
       profil_public: {
         Args: { p_id: string }
@@ -1414,7 +1811,9 @@ export type Database = {
         }[]
       }
       resume_files_admin: { Args: never; Returns: string }
+      rouvrir_annonce: { Args: { p_annonce_id: number }; Returns: undefined }
       signaler_activite_admin: { Args: never; Returns: undefined }
+      soumettre_annonce: { Args: { p_annonce_id: number }; Returns: string }
       soumettre_kyc: { Args: { p_type_piece: string }; Returns: undefined }
       taches_planifiees: { Args: never; Returns: undefined }
       verifier_empreinte: {
@@ -1435,8 +1834,15 @@ export type Database = {
     }
     Enums: {
       role_utilisateur: "etudiant" | "proprietaire" | "admin" | "super_admin"
+      statut_annonce:
+        | "brouillon"
+        | "en_attente"
+        | "publiee"
+        | "refusee"
+        | "archivee"
       statut_compte: "actif" | "suspendu" | "desactive"
       statut_kyc: "non_soumis" | "en_attente" | "valide" | "refuse"
+      type_annonce: "chambre" | "studio" | "appartement" | "place_colocation"
       type_piece: "cni" | "passeport"
     }
     CompositeTypes: {
@@ -1569,8 +1975,16 @@ export const Constants = {
   public: {
     Enums: {
       role_utilisateur: ["etudiant", "proprietaire", "admin", "super_admin"],
+      statut_annonce: [
+        "brouillon",
+        "en_attente",
+        "publiee",
+        "refusee",
+        "archivee",
+      ],
       statut_compte: ["actif", "suspendu", "desactive"],
       statut_kyc: ["non_soumis", "en_attente", "valide", "refuse"],
+      type_annonce: ["chambre", "studio", "appartement", "place_colocation"],
       type_piece: ["cni", "passeport"],
     },
   },

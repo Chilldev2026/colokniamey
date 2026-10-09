@@ -9,6 +9,8 @@ defineProps<{
   erreur?: string
   aide?: string
   autocomplete?: string
+  /** Clavier proposé sur téléphone, sans changer le type de la valeur (reste du texte). */
+  inputmode?: 'numeric' | 'decimal' | 'tel' | 'email' | 'text'
   requis?: boolean
 }>()
 
@@ -23,6 +25,7 @@ const id = useId()
       v-model="modele"
       :type="type ?? 'text'"
       :autocomplete="autocomplete"
+      :inputmode="inputmode"
       :required="requis"
       :aria-invalid="erreur ? true : undefined"
       :aria-describedby="erreur ? `${id}-erreur` : aide ? `${id}-aide` : undefined"
