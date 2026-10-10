@@ -133,7 +133,7 @@ Chaque module contient : `index.ts` (son contrat public : routes, menu, API), `r
 - [x] A1 Tableau de bord et statistiques (phase 2)
 - [x] A6 Audit, erreurs et supervision (phase 2)
 - [x] A4 Communiqués
-- [ ] Phase 2 restante : F2 finalisation
+- [~] F2 Finalisation : vérifications automatiques faites, reste le déploiement réel (docs/f2-finalisation.md)
 
 ## Rôles
 `etudiant`, `proprietaire`, `admin`, `super_admin`. Une inscription ne peut créer qu'un `etudiant` ou un `proprietaire`. Le premier super-admin est créé par script SQL.
