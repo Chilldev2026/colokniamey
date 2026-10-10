@@ -139,8 +139,9 @@ begin
   if v_nb <> 1 then raise exception 'ÉCHEC : recherche par téléphone'; end if;
   select count(*) into v_nb from public.liste_utilisateurs('%');
   if v_nb <> 0 then raise exception 'ÉCHEC : le joker %% n''est pas échappé'; end if;
+  -- au moins les deux super-admins du test (la base peut contenir de vrais super-admins)
   select count(*) into v_nb from public.liste_utilisateurs(null, 'super_admin');
-  if v_nb <> 2 then raise exception 'ÉCHEC : filtre de rôle'; end if;
+  if v_nb < 2 then raise exception 'ÉCHEC : filtre de rôle'; end if;
   select count(*) into v_nb from public.liste_utilisateurs(null, null, 'suspendu');
   if v_nb <> 0 then raise exception 'ÉCHEC : filtre de statut'; end if;
   select count(*) into v_nb from public.liste_utilisateurs(null, null, null, current_date + 1);
@@ -265,6 +266,8 @@ begin
   raise notice 'OK RGA09/RGA38 : désactivation, suppression, réinitialisation du MFA';
 
   -- Le dernier super-admin ne peut pas être rétrogradé, suspendu ni supprimé (RGA03)
+  -- (la base peut contenir de vrais super-admins : pour ce test, ils sont écartés le temps de la transaction)
+  update public.profils set statut = 'desactive' where role = 'super_admin' and id not in (v_s1, v_s2);
   update public.profils set statut = 'desactive' where id = v_s2; -- il en reste un autre : accepté
   begin update public.profils set role = 'admin' where id = v_s1; raise exception 'ÉCHEC RGA03 : dernier super-admin rétrogradé';
   exception when raise_exception then if sqlerrm like 'ÉCHEC%' then raise; end if; end;
