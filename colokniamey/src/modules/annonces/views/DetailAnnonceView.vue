@@ -215,6 +215,8 @@ function date(valeur: string): string {
         <h2>Contacter l'annonceur</h2>
         <template v-if="auth.estConnecte">
           <div class="boutons">
+            <!-- RG32 : la messagerie interne est toujours disponible (module M6, par son chemin) -->
+            <RouterLink v-if="annonce.auteurId !== auth.profil?.id" class="message" :to="`/messages/nouveau/${annonce.id}`">Envoyer un message</RouterLink>
             <BoutonUi v-if="annonce.contactAppel" variante="principal" :chargement="contactEnCours" @click="contacter('appel')">Appeler</BoutonUi>
             <BoutonUi v-if="annonce.contactWhatsapp" variante="secondaire" :chargement="contactEnCours" @click="contacter('whatsapp')">Écrire sur WhatsApp</BoutonUi>
           </div>
@@ -351,5 +353,16 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: var(--e3);
+}
+.message {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-min);
+  padding: 0 var(--e4);
+  border-radius: var(--rayon);
+  background: var(--orange);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
 }
 </style>

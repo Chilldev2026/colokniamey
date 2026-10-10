@@ -252,6 +252,62 @@ export type Database = {
         }
         Relationships: []
       }
+      conversations: {
+        Row: {
+          annonce_id: number | null
+          auteur_id: string
+          created_at: string
+          demandeur_id: string
+          dernier_message_le: string
+          id: number
+        }
+        Insert: {
+          annonce_id?: number | null
+          auteur_id: string
+          created_at?: string
+          demandeur_id: string
+          dernier_message_le?: string
+          id?: never
+        }
+        Update: {
+          annonce_id?: number | null
+          auteur_id?: string
+          created_at?: string
+          demandeur_id?: string
+          dernier_message_le?: string
+          id?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_auteur_id_fkey"
+            columns: ["auteur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_demandeur_id_fkey"
+            columns: ["demandeur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       equipements: {
         Row: {
           actif: boolean
@@ -438,6 +494,48 @@ export type Database = {
           portee?: string
         }
         Relationships: []
+      }
+      messages: {
+        Row: {
+          contenu: string
+          conversation_id: number
+          created_at: string
+          expediteur_id: string
+          id: number
+          lu_le: string | null
+        }
+        Insert: {
+          contenu: string
+          conversation_id: number
+          created_at?: string
+          expediteur_id?: string
+          id?: never
+          lu_le?: string | null
+        }
+        Update: {
+          contenu?: string
+          conversation_id?: number
+          created_at?: string
+          expediteur_id?: string
+          id?: never
+          lu_le?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_expediteur_id_fkey"
+            columns: ["expediteur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       mesures: {
         Row: {
@@ -1596,6 +1694,10 @@ export type Database = {
         Args: { p_actif: boolean; p_id: number }
         Returns: undefined
       }
+      demarrer_conversation: {
+        Args: { p_annonce_id: number; p_message: string }
+        Returns: number
+      }
       demarrer_kyc: {
         Args: never
         Returns: {
@@ -1669,6 +1771,7 @@ export type Database = {
       exiger_identite_verifiee: { Args: never; Returns: undefined }
       exporter_donnees_annonces: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_identite: { Args: { p_uid: string }; Returns: Json }
+      exporter_donnees_messagerie: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_recherche: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
@@ -1797,6 +1900,19 @@ export type Database = {
           type_contenu: string
         }[]
       }
+      liste_conversations: {
+        Args: never
+        Returns: {
+          annonce_id: number
+          annonce_titre: string
+          autre_id: string
+          autre_initiale: string
+          autre_prenom: string
+          dernier_message_le: string
+          id: number
+          non_lus: number
+        }[]
+      }
       liste_dossiers_kyc: {
         Args: { p_statut?: string }
         Returns: {
@@ -1890,6 +2006,11 @@ export type Database = {
           total: number
         }[]
       }
+      ma_conversation_annonce: {
+        Args: { p_annonce_id: number }
+        Returns: number
+      }
+      marquer_lu: { Args: { p_conversation_id: number }; Returns: number }
       marquer_relance_vue: { Args: { p_id: number }; Returns: undefined }
       mes_favoris: {
         Args: never
@@ -1930,6 +2051,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      mes_messages_non_lus: { Args: never; Returns: number }
       mes_preferences_admin: {
         Args: never
         Returns: {
