@@ -210,6 +210,68 @@ export type Database = {
           },
         ]
       }
+      communiques: {
+        Row: {
+          cible: Database["public"]["Enums"]["cible_communique"]
+          created_at: string
+          cree_par: string
+          debut: string
+          fin: string
+          id: number
+          message: string
+          niveau: Database["public"]["Enums"]["niveau_communique"]
+          titre: string
+          updated_at: string
+        }
+        Insert: {
+          cible?: Database["public"]["Enums"]["cible_communique"]
+          created_at?: string
+          cree_par?: string
+          debut?: string
+          fin: string
+          id?: never
+          message: string
+          niveau?: Database["public"]["Enums"]["niveau_communique"]
+          titre: string
+          updated_at?: string
+        }
+        Update: {
+          cible?: Database["public"]["Enums"]["cible_communique"]
+          created_at?: string
+          cree_par?: string
+          debut?: string
+          fin?: string
+          id?: never
+          message?: string
+          niveau?: Database["public"]["Enums"]["niveau_communique"]
+          titre?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      communiques_masques: {
+        Row: {
+          communique_id: number
+          user_id: string
+        }
+        Insert: {
+          communique_id: number
+          user_id: string
+        }
+        Update: {
+          communique_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "communiques_masques_communique_id_fkey"
+            columns: ["communique_id"]
+            isOneToOne: false
+            referencedRelation: "communiques"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       compteurs_quota: {
         Row: {
           action: string
@@ -1935,6 +1997,18 @@ export type Database = {
         Args: { p_commentaire?: string; p_decision: string; p_id: number }
         Returns: undefined
       }
+      communiques_actifs: {
+        Args: never
+        Returns: {
+          debut: string
+          fin: string
+          id: number
+          masquable: boolean
+          message: string
+          niveau: string
+          titre: string
+        }[]
+      }
       compter_file: {
         Args: { p_vue: string }
         Returns: {
@@ -2469,6 +2543,7 @@ export type Database = {
       }
       marquer_lu: { Args: { p_conversation_id: number }; Returns: number }
       marquer_relance_vue: { Args: { p_id: number }; Returns: undefined }
+      masquer_communique: { Args: { p_id: number }; Returns: undefined }
       membres_acceptes: { Args: { p_groupe_id: number }; Returns: number }
       membres_du_groupe: {
         Args: { p_groupe_id: number }
@@ -2766,12 +2841,14 @@ export type Database = {
       }
     }
     Enums: {
+      cible_communique: "tous" | "etudiants" | "proprietaires"
       motif_signalement:
         | "arnaque"
         | "contenu_inapproprie"
         | "fausse_annonce"
         | "harcelement"
         | "autre"
+      niveau_communique: "information" | "avertissement" | "critique"
       role_utilisateur: "etudiant" | "proprietaire" | "admin" | "super_admin"
       statut_annonce:
         | "brouillon"
@@ -2916,6 +2993,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      cible_communique: ["tous", "etudiants", "proprietaires"],
       motif_signalement: [
         "arnaque",
         "contenu_inapproprie",
@@ -2923,6 +3001,7 @@ export const Constants = {
         "harcelement",
         "autre",
       ],
+      niveau_communique: ["information", "avertissement", "critique"],
       role_utilisateur: ["etudiant", "proprietaire", "admin", "super_admin"],
       statut_annonce: [
         "brouillon",

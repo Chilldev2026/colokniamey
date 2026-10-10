@@ -14,7 +14,7 @@ do $$
 declare
   -- Fonctions appelables par les visiteurs ET les connectés : données publiques ou mesures anonymes limitées
   v_publiques constant text[] := array[
-    'annonces_carte', 'auteur_actif', 'compter_groupes_annonces', 'compter_groupes_en_formation',
+    'annonces_carte', 'auteur_actif', 'communiques_actifs', 'compter_groupes_annonces', 'compter_groupes_en_formation',
     'en_maintenance', 'enregistrer_erreur', 'enregistrer_erreur_detail', 'enregistrer_mesures', 'enregistrer_visite',
     'est_etudiant', 'filtrer_annonces', 'identite_verifiee', 'parametres_publics',
     'photo_principale_annonce', 'photos_annonce', 'profil_public', 'rechercher_annonces'
@@ -40,7 +40,9 @@ declare
     'verifier_quota',
     -- A1 (statistiques) et A6 (audit, erreurs, supervision) : réservées aux admins ou au super-admin, vérifié dans le corps
     'stats_utilisateurs', 'stats_annonces', 'stats_visites', 'stats_moderation', 'stats_erreurs', 'liste_journal', 'filtres_journal',
-    'liste_erreurs', 'changer_statut_erreur', 'liste_seuils', 'definir_seuil', 'supervision', 'alertes_supervision_actives'
+    'liste_erreurs', 'changer_statut_erreur', 'liste_seuils', 'definir_seuil', 'supervision', 'alertes_supervision_actives',
+    -- A4 : masquer un communiqué (connecté)
+    'masquer_communique'
   ];
   -- Tables et vues lisibles par un visiteur (référentiel et annonces publiées, filtrées par la RLS)
   v_tables_publiques constant text[] := array[

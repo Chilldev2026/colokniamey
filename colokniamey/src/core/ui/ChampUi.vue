@@ -5,7 +5,7 @@ const modele = defineModel<string>({ required: true })
 
 defineProps<{
   libelle: string
-  type?: 'text' | 'email' | 'password' | 'tel' | 'number' | 'date'
+  type?: 'text' | 'email' | 'password' | 'tel' | 'number' | 'date' | 'datetime-local'
   erreur?: string
   aide?: string
   autocomplete?: string

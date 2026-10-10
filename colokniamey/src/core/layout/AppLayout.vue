@@ -5,6 +5,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import type { EntreeMenu } from '../modules/types'
 import { roleAutorise } from '../acces'
+import { extensions } from '../extensions'
 import { direction } from '../design/direction'
 import MotifRuban from '../design/MotifRuban.vue'
 import BoutonInstaller from '../pwa/BoutonInstaller.vue'
@@ -29,8 +30,10 @@ const entrees = computed(() => props.menu.filter((e) => roleAutorise(e.roles)))
     </header>
     <MotifRuban />
 
-    <!-- Zone réservée aux communiqués (module A4, phase 2) -->
-    <div id="zone-communique" />
+    <!-- Zone des communiqués (module A4) : le module s'y enregistre par le point d'extension « zone-communique » ; sans lui, elle reste vide -->
+    <div id="zone-communique">
+      <component :is="ext" v-for="(ext, i) in extensions('zone-communique')" :key="i" />
+    </div>
 
     <main class="contenu">
       <RouterView v-slot="{ Component }">

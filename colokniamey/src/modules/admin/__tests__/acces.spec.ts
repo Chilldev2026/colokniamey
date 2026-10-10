@@ -32,11 +32,11 @@ describe('menu de la coque (RGA26)', () => {
     const menu = construireMenu(routesEnfantsAdmin, 'super_admin')
     expect(menu.map((e) => e.libelle)).toEqual([
       "Vue d'ensemble", 'Supervision technique', 'Erreurs', 'Administrateurs', 'Maintenance', 'Paramètres', "Journal d'audit",
-      'Signalements', 'Utilisateurs', 'Annonces', 'Photos', 'Contenus', 'Termes sensibles', 'Référentiel',
+      'Signalements', 'Utilisateurs', 'Annonces', 'Photos', 'Contenus', 'Termes sensibles', 'Référentiel', 'Communiqués',
     ])
     expect(menu.map((e) => e.section)).toEqual([
       ...Array(7).fill('pilotage'),
-      ...Array(7).fill('operations'),
+      ...Array(8).fill('operations'),
     ])
   })
 

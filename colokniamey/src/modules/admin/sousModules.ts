@@ -1,6 +1,7 @@
 // Sous-modules actifs de l'espace admin. Pour en activer ou désactiver un, on ajoute ou retire son import ici ;
 // le menu et les routes de la coque sont construits à partir de cette liste.
 import { auditSousModule } from './audit'
+import { communiquesAdminSousModule } from './communiques'
 import { erreursSousModule } from './erreurs'
 import { identitesSousModule } from './identites'
 import { moderationSousModule } from './moderation'
@@ -23,5 +24,5 @@ export const sousModulesAdmin: SousModuleAdmin[] = [
   supervisionSousModule,
   plateformeSousModule,
   referentielAdminSousModule,
-  // À venir : communiques (A4)
+  communiquesAdminSousModule,
 ]
