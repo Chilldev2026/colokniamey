@@ -289,7 +289,13 @@ const partParPersonne = computed(() => (estColocation.value ? 'Ta part mensuelle
             <textarea id="description" v-model="form.description" rows="5" maxlength="2000" :aria-invalid="erreurs.description ? true : undefined" />
             <p v-if="erreurs.description" class="erreur" role="alert">{{ erreurs.description }}</p>
           </div>
-          <ChampUi v-if="estColocation" v-model="form.nbPlaces" libelle="Nombre de places du logement (toi compris)" inputmode="numeric" :erreur="erreurs.nbPlaces" />
+          <ChampUi
+            v-model="form.nbPlaces"
+            :libelle="estColocation ? 'Nombre de places du logement (toi compris)' : 'Nombre de colocataires que le logement peut accueillir'"
+            inputmode="numeric"
+            :aide="estColocation ? undefined : 'Des étudiants pourront former un groupe pour louer ensemble. Mets 1 pour une seule personne.'"
+            :erreur="erreurs.nbPlaces"
+          />
           <ChampUi v-model="form.partMensuelle" :libelle="`${partParPersonne} (FCFA)`" inputmode="numeric" :erreur="erreurs.partMensuelle" />
           <ChampUi v-if="estColocation" v-model="form.loyerTotal" libelle="Loyer total du logement (FCFA)" inputmode="numeric" :erreur="erreurs.loyerTotal" />
           <CaseACocher v-model="form.chargesIncluses">Les charges (eau, électricité) sont comprises dans le loyer.</CaseACocher>

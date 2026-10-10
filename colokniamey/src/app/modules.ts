@@ -12,6 +12,7 @@ import { identiteModule } from '@/modules/identite'
 import { annoncesModule } from '@/modules/annonces'
 import { rechercheModule } from '@/modules/recherche'
 import { messagerieModule } from '@/modules/messagerie'
+import { groupesModule } from '@/modules/groupes'
 import { adminModule } from '@/modules/admin'
 
 export const modulesActifs: DefinitionModule[] = [
@@ -23,7 +24,8 @@ export const modulesActifs: DefinitionModule[] = [
   annoncesModule,
   rechercheModule,
   messagerieModule,
+  groupesModule,
   adminModule,
   // Les modules suivants s'ajoutent ici au fil du développement :
-  // groupes (M8), signalements (M7)…
+  // signalements (M7)…
 ]

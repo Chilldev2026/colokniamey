@@ -13,7 +13,7 @@ import ApercuCarte from '../components/ApercuCarte.vue'
 import CarteResultat from '../components/CarteResultat.vue'
 import CarteResultats from '../components/CarteResultats.vue'
 import FiltresPanneau from '../components/FiltresPanneau.vue'
-import { rechercherAnnonces, TAILLE_PAGE, type MarqueurCarte, type ResultatAnnonce } from '../services/rechercheService'
+import { compterGroupes, rechercherAnnonces, TAILLE_PAGE, type MarqueurCarte, type ResultatAnnonce } from '../services/rechercheService'
 import { compterFiltres, depuisRequeteUrl, filtresVides, versRequeteUrl, type FiltresRecherche } from '../types'
 
 const route = useRoute()
@@ -37,6 +37,7 @@ const erreur = ref('')
 const choisi = ref<MarqueurCarte | null>(null)
 const apercuOuvert = ref(false)
 const nbCarte = ref<number | null>(null)
+const groupes = ref<Map<number, number>>(new Map())
 
 const nomsQuartiers = computed(() => new Map(quartiers.value.map((q) => [q.id, q.nom])))
 const nbFiltres = computed(() => compterFiltres(filtresAppliques.value))
@@ -57,6 +58,7 @@ async function lancer() {
     const page = await rechercherAnnonces(filtresAppliques.value, ville.value?.id, null)
     resultats.value = page
     peutContinuer.value = page.length === TAILLE_PAGE
+    groupes.value = await compterGroupes(page.map((a) => a.id))
   } catch (e) {
     erreur.value = e instanceof Error ? e.message : 'La recherche a échoué.'
   } finally {
@@ -72,6 +74,7 @@ async function suite() {
     const page = await rechercherAnnonces(filtresAppliques.value, ville.value?.id, { v: derniere.curseurValeur, id: derniere.id })
     resultats.value = [...resultats.value, ...page]
     peutContinuer.value = page.length === TAILLE_PAGE
+    groupes.value = new Map([...groupes.value, ...(await compterGroupes(page.map((a) => a.id)))])
   } catch (e) {
     erreur.value = e instanceof Error ? e.message : 'La recherche a échoué.'
   } finally {
@@ -176,7 +179,7 @@ onMounted(async () => {
       </EtatVide>
       <TransitionGroup v-else name="cascade" tag="ul" class="liste">
         <li v-for="a in resultats" :key="a.id">
-          <CarteResultat :annonce="a" :quartier="nomsQuartiers.get(a.quartierId) ?? ''" />
+          <CarteResultat :annonce="a" :quartier="nomsQuartiers.get(a.quartierId) ?? ''" :groupes="groupes.get(a.id)" />
         </li>
       </TransitionGroup>
       <BoutonUi v-if="peutContinuer && !chargement" variante="secondaire" :chargement="chargementSuite" @click="suite">Voir plus d'annonces</BoutonUi>

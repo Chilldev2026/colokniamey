@@ -343,6 +343,7 @@ describe('Éditeur en étapes', () => {
     const options = w.findAll('select')[0]!.findAll('option').map((o) => o.text())
     expect(options).toEqual(['Chambre', 'Studio', 'Appartement'])
     expect(w.text()).not.toContain('Loyer total du logement')
+    expect(w.text()).toContain('Nombre de colocataires que le logement peut accueillir')
   })
 
   it('l\'étape 1 refuse un formulaire incomplet sans rien enregistrer', async () => {
@@ -364,7 +365,7 @@ describe('Éditeur en étapes', () => {
     await w.find('input').setValue('Studio près du campus')
     await w.find('textarea').setValue('Un studio calme et lumineux près du campus.')
     const champs = w.findAll('input[inputmode="numeric"]')
-    await champs[0]!.setValue('50000')
+    await champs[1]!.setValue('50000') // [0] : nombre de places, [1] : loyer
     await w.findAll('select')[1]!.setValue('5')
     await w.find('form').trigger('submit')
     await flushPromises()

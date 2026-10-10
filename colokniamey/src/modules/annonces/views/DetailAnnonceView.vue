@@ -10,6 +10,7 @@ import BoutonUi from '@/core/ui/BoutonUi.vue'
 import CarteBase from '@/core/ui/CarteBase.vue'
 import ChargementUi from '@/core/ui/ChargementUi.vue'
 import PuceUi from '@/core/ui/PuceUi.vue'
+import { extensions } from '@/core/extensions'
 import { useAuthStore } from '@/modules/auth'
 import { BadgeIdentite } from '@/modules/identite'
 import { CarteProfilPublic } from '@/modules/profils'
@@ -211,6 +212,18 @@ function date(valeur: string): string {
       </section>
 
       <!-- Contact (RG32) -->
+      <!-- Points d'extension : un module optionnel (ex. groupes de colocation, M8) y ajoute sa section sans que cette page l'importe -->
+      <component
+        :is="ext"
+        v-for="(ext, i) in extensions('annonce-detail')"
+        :key="i"
+        :annonce-id="annonce.id"
+        :type="annonce.type"
+        :auteur-id="annonce.auteurId"
+        :nb-places="annonce.nbPlaces"
+        :publiee="estPubliee"
+      />
+
       <section v-if="estPubliee" class="bloc contact">
         <h2>Contacter l'annonceur</h2>
         <template v-if="auth.estConnecte">

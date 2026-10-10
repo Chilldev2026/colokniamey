@@ -129,3 +129,16 @@ export async function listerPhotosPubliques(annonceId: number): Promise<string[]
   if (error) throw new Error('Impossible de charger les photos.')
   return data.map((p) => urlPhoto(p.chemin))
 }
+
+/**
+ * Badge « N groupes cherchent des colocataires » (M8) : un nombre par annonce. Si le module M8 n'est pas installé en
+ * base, la fonction n'existe pas : on renvoie simplement « aucun badge ».
+ */
+export async function compterGroupes(annonceIds: number[]): Promise<Map<number, number>> {
+  const resultat = new Map<number, number>()
+  if (annonceIds.length === 0) return resultat
+  const { data, error } = await supabase.rpc('compter_groupes_annonces', { p_ids: annonceIds.slice(0, 100) })
+  if (error) return resultat
+  for (const l of data) resultat.set(l.annonce_id, l.nombre)
+  return resultat
+}

@@ -81,6 +81,7 @@ function reinitialiser() {
         {{ e.nom }}
       </CaseACocher>
     </fieldset>
+    <CaseACocher v-model="filtres.groupes">Seulement les colocations en formation (des étudiants cherchent déjà des colocataires)</CaseACocher>
     <CaseACocher v-model="filtres.compatible">Seulement les annonces compatibles avec mon profil</CaseACocher>
     <SelecteurUi :model-value="filtres.tri" libelle="Trier par" :options="optionsTri" @update:model-value="majTri" />
     <div class="boutons">

@@ -444,6 +444,67 @@ export type Database = {
         }
         Relationships: []
       }
+      groupes_colocation: {
+        Row: {
+          annonce_id: number
+          created_at: string
+          derniere_activite: string
+          en_revue: boolean
+          id: number
+          initiateur_id: string
+          message: string | null
+          places_recherchees: number
+          preferences: string | null
+          statut: Database["public"]["Enums"]["statut_groupe"]
+        }
+        Insert: {
+          annonce_id: number
+          created_at?: string
+          derniere_activite?: string
+          en_revue?: boolean
+          id?: never
+          initiateur_id: string
+          message?: string | null
+          places_recherchees: number
+          preferences?: string | null
+          statut?: Database["public"]["Enums"]["statut_groupe"]
+        }
+        Update: {
+          annonce_id?: number
+          created_at?: string
+          derniere_activite?: string
+          en_revue?: boolean
+          id?: never
+          initiateur_id?: string
+          message?: string | null
+          places_recherchees?: number
+          preferences?: string | null
+          statut?: Database["public"]["Enums"]["statut_groupe"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "groupes_colocation_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "groupes_colocation_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "groupes_colocation_initiateur_id_fkey"
+            columns: ["initiateur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       journal_audit: {
         Row: {
           acteur_id: string | null
@@ -494,6 +555,51 @@ export type Database = {
           portee?: string
         }
         Relationships: []
+      }
+      membres_groupe: {
+        Row: {
+          created_at: string
+          groupe_id: number
+          id: number
+          role: string
+          statut: Database["public"]["Enums"]["statut_membre"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          groupe_id: number
+          id?: never
+          role?: string
+          statut?: Database["public"]["Enums"]["statut_membre"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          groupe_id?: number
+          id?: never
+          role?: string
+          statut?: Database["public"]["Enums"]["statut_membre"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "membres_groupe_groupe_id_fkey"
+            columns: ["groupe_id"]
+            isOneToOne: false
+            referencedRelation: "groupes_colocation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "membres_groupe_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       messages: {
         Row: {
@@ -1609,12 +1715,25 @@ export type Database = {
         Returns: string
       }
       avatar_valide: { Args: { p_id: string }; Returns: string }
+      capacite_groupe: { Args: { p_groupe_id: number }; Returns: number }
+      cloturer_groupes_inactifs: { Args: never; Returns: number }
       compter_file: {
         Args: { p_vue: string }
         Returns: {
           nombre: number
           plus_ancien: string
         }[]
+      }
+      compter_groupes_annonces: {
+        Args: { p_ids: number[] }
+        Returns: {
+          annonce_id: number
+          nombre: number
+        }[]
+      }
+      compter_groupes_en_formation: {
+        Args: { p_annonce_id: number }
+        Returns: number
       }
       compteurs_utilisateur_annonces: { Args: { p_uid: string }; Returns: Json }
       compteurs_utilisateur_identite: { Args: { p_uid: string }; Returns: Json }
@@ -1668,6 +1787,15 @@ export type Database = {
         Args: { p_contexte?: string; p_texte: string }
         Returns: string
       }
+      creer_groupe: {
+        Args: {
+          p_annonce_id: number
+          p_message?: string
+          p_places: number
+          p_preferences?: string
+        }
+        Returns: number
+      }
       decider_contenu: {
         Args: { p_id: number; p_motif?: string; p_publier: boolean }
         Returns: undefined
@@ -1694,6 +1822,7 @@ export type Database = {
         Args: { p_actif: boolean; p_id: number }
         Returns: undefined
       }
+      demander_adhesion: { Args: { p_groupe_id: number }; Returns: undefined }
       demarrer_conversation: {
         Args: { p_annonce_id: number; p_message: string }
         Returns: number
@@ -1757,6 +1886,7 @@ export type Database = {
       est_actif: { Args: never; Returns: boolean }
       est_admin: { Args: never; Returns: boolean }
       est_etudiant: { Args: never; Returns: boolean }
+      est_initiateur_groupe: { Args: { p_groupe_id: number }; Returns: boolean }
       est_super_admin: { Args: never; Returns: boolean }
       etat_files_admin: {
         Args: never
@@ -1768,8 +1898,10 @@ export type Database = {
           plus_ancien: string
         }[]
       }
+      exiger_etudiant_verifie: { Args: never; Returns: undefined }
       exiger_identite_verifiee: { Args: never; Returns: undefined }
       exporter_donnees_annonces: { Args: { p_uid: string }; Returns: Json }
+      exporter_donnees_groupes: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_identite: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_messagerie: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
@@ -1815,6 +1947,24 @@ export type Database = {
           isOneToOne: false
           isSetofReturn: true
         }
+      }
+      groupes_actifs_de: { Args: { p_uid: string }; Returns: number }
+      groupes_du_logement: {
+        Args: { p_annonce_id: number }
+        Returns: {
+          id: number
+          initiateur_id: string
+          initiateur_initiale: string
+          initiateur_prenom: string
+          membres: number
+          message: string
+          mon_statut: string
+          part_estimee_fcfa: number
+          places_recherchees: number
+          places_restantes: number
+          preferences: string
+          statut: string
+        }[]
       }
       identite_conforme: { Args: { p_uid: string }; Returns: boolean }
       identite_verifiee: { Args: { p_uid: string }; Returns: boolean }
@@ -2012,6 +2162,18 @@ export type Database = {
       }
       marquer_lu: { Args: { p_conversation_id: number }; Returns: number }
       marquer_relance_vue: { Args: { p_id: number }; Returns: undefined }
+      membres_acceptes: { Args: { p_groupe_id: number }; Returns: number }
+      membres_du_groupe: {
+        Args: { p_groupe_id: number }
+        Returns: {
+          initiale: string
+          membre_id: number
+          prenom: string
+          role: string
+          statut: string
+          user_id: string
+        }[]
+      }
       mes_favoris: {
         Args: never
         Returns: {
@@ -2050,6 +2212,22 @@ export type Database = {
           isOneToOne: false
           isSetofReturn: true
         }
+      }
+      mes_groupes: {
+        Args: never
+        Returns: {
+          annonce_id: number
+          annonce_titre: string
+          demandes_en_attente: number
+          derniere_activite: string
+          id: number
+          membres: number
+          mon_role: string
+          mon_statut: string
+          part_estimee_fcfa: number
+          places_recherchees: number
+          statut: string
+        }[]
       }
       mes_messages_non_lus: { Args: never; Returns: number }
       mes_preferences_admin: {
@@ -2122,6 +2300,7 @@ export type Database = {
       }
       parametres_publics: { Args: never; Returns: Json }
       peut_ecrire: { Args: never; Returns: boolean }
+      peut_voir_groupe: { Args: { p_groupe_id: number }; Returns: boolean }
       photo_principale_annonce: {
         Args: { p_annonce_id: number }
         Returns: string
@@ -2166,6 +2345,7 @@ export type Database = {
         }
         Returns: number
       }
+      quitter_groupe: { Args: { p_groupe_id: number }; Returns: undefined }
       quota_anonyme: {
         Args: { p_action: string; p_session: string }
         Returns: boolean
@@ -2216,6 +2396,10 @@ export type Database = {
           resume: string
         }[]
       }
+      repondre_demande: {
+        Args: { p_accepter: boolean; p_membre_id: number }
+        Returns: undefined
+      }
       resume_files_admin: { Args: never; Returns: string }
       retirer_annonce: {
         Args: { p_id: number; p_motif: string }
@@ -2231,6 +2415,10 @@ export type Database = {
       verifier_empreinte: {
         Args: { p_auteur: string; p_empreinte: string }
         Returns: boolean
+      }
+      verifier_participation: {
+        Args: { p_annonce_id: number; p_uid: string }
+        Returns: undefined
       }
       verifier_quota: { Args: { p_action: string }; Returns: undefined }
       verifier_texte: {
@@ -2253,7 +2441,9 @@ export type Database = {
         | "refusee"
         | "archivee"
       statut_compte: "actif" | "suspendu" | "desactive"
+      statut_groupe: "en_formation" | "complet" | "cloture"
       statut_kyc: "non_soumis" | "en_attente" | "valide" | "refuse"
+      statut_membre: "en_attente" | "accepte" | "refuse" | "parti"
       type_annonce: "chambre" | "studio" | "appartement" | "place_colocation"
       type_piece: "cni" | "passeport"
     }
@@ -2395,7 +2585,9 @@ export const Constants = {
         "archivee",
       ],
       statut_compte: ["actif", "suspendu", "desactive"],
+      statut_groupe: ["en_formation", "complet", "cloture"],
       statut_kyc: ["non_soumis", "en_attente", "valide", "refuse"],
+      statut_membre: ["en_attente", "accepte", "refuse", "parti"],
       type_annonce: ["chambre", "studio", "appartement", "place_colocation"],
       type_piece: ["cni", "passeport"],
     },

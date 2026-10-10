@@ -17,13 +17,15 @@ export interface FiltresRecherche {
   equipements: number[]
   dureeMois: string
   compatible: boolean
+  /** Seulement les logements où un groupe d'étudiants se forme (M8). */
+  groupes: boolean
   tri: TriRecherche
 }
 
 export function filtresVides(): FiltresRecherche {
   return {
     texte: '', quartierId: '', universiteId: '', universiteRefId: '', type: '', loyerMin: '', loyerMax: '',
-    disponibleAvant: '', equipements: [], dureeMois: '', compatible: false, tri: 'recent',
+    disponibleAvant: '', equipements: [], dureeMois: '', compatible: false, groupes: false, tri: 'recent',
   }
 }
 
@@ -62,6 +64,7 @@ export function versFiltresBase(f: FiltresRecherche, villeId?: number): Record<s
   const duree = entier(f.dureeMois)
   if (duree !== null && duree > 0) j.duree_mois = duree
   if (f.compatible) j.compatible = true
+  if (f.groupes) j.groupes_en_formation = true
   return j
 }
 
@@ -79,6 +82,7 @@ export function versRequeteUrl(f: FiltresRecherche, vue: 'liste' | 'carte'): Rec
   if (f.equipements.length > 0) q.equipements = f.equipements.join(',')
   if (f.dureeMois !== '') q.duree = f.dureeMois
   if (f.compatible) q.compatible = '1'
+  if (f.groupes) q.groupes = '1'
   if (f.tri !== 'recent') q.tri = f.tri
   if (vue === 'carte') q.vue = 'carte'
   return q
@@ -103,6 +107,7 @@ export function depuisRequeteUrl(requete: Record<string, unknown>): { filtres: F
   f.equipements = premier(requete.equipements).split(',').filter((e) => /^\d+$/.test(e)).map(Number)
   f.dureeMois = /^\d+$/.test(premier(requete.duree)) ? premier(requete.duree) : ''
   f.compatible = premier(requete.compatible) === '1'
+  f.groupes = premier(requete.groupes) === '1'
   const tri = premier(requete.tri)
   f.tri = tri === 'loyer_asc' || tri === 'loyer_desc' ? tri : 'recent'
   return { filtres: f, vue: premier(requete.vue) === 'carte' ? 'carte' : 'liste' }
@@ -111,7 +116,7 @@ export function depuisRequeteUrl(requete: Record<string, unknown>): { filtres: F
 /** Nombre de filtres actifs (hors tri) : affiché sur le bouton « Filtres ». */
 export function compterFiltres(f: FiltresRecherche): number {
   return [f.quartierId, f.universiteId, f.type, f.loyerMin, f.loyerMax, f.disponibleAvant, f.dureeMois].filter((v) => v !== '').length
-    + (f.equipements.length > 0 ? 1 : 0) + (f.compatible ? 1 : 0)
+    + (f.equipements.length > 0 ? 1 : 0) + (f.compatible ? 1 : 0) + (f.groupes ? 1 : 0)
 }
 
 // --- Carte ---

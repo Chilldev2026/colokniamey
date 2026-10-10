@@ -31,7 +31,10 @@ export function validerEtapeLogement(f: FormulaireAnnonce): ErreursAnnonce {
     const total = lireEntier(f.loyerTotal)
     if (total === null || total <= 0) e.loyerTotal = 'Indique le loyer total du logement en FCFA.'
     else if (part !== null && total < part) e.loyerTotal = 'Le loyer total ne peut pas être inférieur à ta part mensuelle.'
-  } else if (f.loyerTotal.trim() !== '') {
+  } else {
+    if (places === null || places < 1 || places > 12) e.nbPlaces = 'Indique un nombre de places entre 1 et 12.'
+  }
+  if (f.type !== 'place_colocation' && f.loyerTotal.trim() !== '') {
     const total = lireEntier(f.loyerTotal)
     if (total === null || total <= 0) e.loyerTotal = 'Montant invalide.'
   }
