@@ -13,7 +13,7 @@
 
 do $$
 declare
-  v_email constant text := 'adresse@exemple.com'; -- À REMPLACER
+  v_email constant text := 'benjidev6@gmail.com'; -- À REMPLACER
   v_id uuid;
 begin
   select id into v_id

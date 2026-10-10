@@ -125,7 +125,8 @@ Chaque module contient : `index.ts` (son contrat public : routes, menu, API), `r
 - [x] K Vérification d'identité (développé et testé, désactivé par défaut)
 - [x] M4 Annonces et localisation
 - [x] A3 Modération (annonces, photos, contenus, termes sensibles)
-- [ ] M5 … (cocher au fur et à mesure)
+- [x] M5 Recherche, carte et favoris
+- [ ] M6 … (cocher au fur et à mesure)
 
 ## Rôles
 `etudiant`, `proprietaire`, `admin`, `super_admin`. Une inscription ne peut créer qu'un `etudiant` ou un `proprietaire`. Le premier super-admin est créé par script SQL.

@@ -25,6 +25,7 @@ const emit = defineEmits<{ jeton: [jeton: string]; erreur: [] }>()
 const cleSite = import.meta.env.VITE_TURNSTILE_SITE_KEY
 const conteneur = ref<HTMLElement | null>(null)
 let idWidget: string | null = null
+const echec = ref(false)
 
 function api(): ApiTurnstile | undefined {
   return (window as unknown as { turnstile?: ApiTurnstile }).turnstile
@@ -65,9 +66,13 @@ onMounted(async () => {
       language: 'fr',
       callback: (jeton) => emit('jeton', jeton),
       'expired-callback': () => emit('jeton', ''),
-      'error-callback': () => emit('erreur'),
+      'error-callback': () => {
+        echec.value = true
+        emit('erreur')
+      },
     })
   } catch {
+    echec.value = true
     emit('erreur')
   }
 })
@@ -84,6 +89,9 @@ defineExpose({ reinitialiser })
   <div>
     <p v-if="!cleSite" class="manque" role="alert">
       Vérification anti-robots non configurée : renseigne VITE_TURNSTILE_SITE_KEY dans .env.
+    </p>
+    <p v-if="echec" class="manque" role="alert">
+      La vérification anti-robots ne s'est pas chargée. Désactive ton bloqueur de publicités pour ce site, vérifie ta connexion, puis recharge la page.
     </p>
     <div ref="conteneur" />
   </div>

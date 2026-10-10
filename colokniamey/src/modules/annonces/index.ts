@@ -3,7 +3,7 @@
 import type { DefinitionModule } from '@/core/modules/types'
 import { routesAnnonces } from './routes'
 
-export { lireAnnonceDetail } from './services/annoncesService'
+export { lireAnnonceDetail, listerEquipements } from './services/annoncesService'
 export { formaterMontant } from './validation'
 export { LIBELLES_TYPE } from './types'
 export type { AnnonceDetail, StatutAnnonce, TypeAnnonce } from './types'

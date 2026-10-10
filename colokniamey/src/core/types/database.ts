@@ -309,6 +309,49 @@ export type Database = {
         }
         Relationships: []
       }
+      favoris: {
+        Row: {
+          annonce_id: number
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          annonce_id: number
+          created_at?: string
+          id?: never
+          user_id?: string
+        }
+        Update: {
+          annonce_id?: number
+          created_at?: string
+          id?: never
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favoris_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favoris_annonce_id_fkey"
+            columns: ["annonce_id"]
+            isOneToOne: false
+            referencedRelation: "annonces_publiques"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favoris_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       files_admin: {
         Row: {
           alerter: boolean
@@ -1443,6 +1486,22 @@ export type Database = {
       }
       alertes_files: { Args: never; Returns: number }
       annonce_a_moderer: { Args: { p_id: number }; Returns: Json }
+      annonces_carte: {
+        Args: { p_emprise: Json; p_filtres?: Json; p_limite?: number }
+        Returns: {
+          distance_ref_m: number
+          groupe_en_formation: boolean
+          id: number
+          latitude: number
+          longitude: number
+          part_mensuelle_fcfa: number
+          photo_chemin: string
+          quartier_id: number
+          titre: string
+          type: string
+          zone_rayon_m: number
+        }[]
+      }
       annuler_kyc: { Args: never; Returns: undefined }
       anonymiser_compte: { Args: { p_uid: string }; Returns: undefined }
       archiver_annonce: { Args: { p_annonce_id: number }; Returns: undefined }
@@ -1595,6 +1654,7 @@ export type Database = {
       }
       est_actif: { Args: never; Returns: boolean }
       est_admin: { Args: never; Returns: boolean }
+      est_etudiant: { Args: never; Returns: boolean }
       est_super_admin: { Args: never; Returns: boolean }
       etat_files_admin: {
         Args: never
@@ -1610,9 +1670,49 @@ export type Database = {
       exporter_donnees_annonces: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_identite: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
+      exporter_donnees_recherche: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
       exporter_mes_donnees: { Args: never; Returns: Json }
       fiche_utilisateur: { Args: { p_id: string }; Returns: Json }
+      filtrer_annonces: {
+        Args: { p_filtres: Json }
+        Returns: {
+          age_max: number | null
+          age_min: number | null
+          auteur_id: string | null
+          charges_incluses: boolean | null
+          contact_appel: boolean | null
+          contact_whatsapp: boolean | null
+          description: string | null
+          disponible_le: string | null
+          distance_universite_m: number | null
+          duree_max_mois: number | null
+          duree_min_mois: number | null
+          etudiants_uniquement: boolean | null
+          id: number | null
+          latitude: number | null
+          longitude: number | null
+          loyer_total_fcfa: number | null
+          montant_charges_fcfa: number | null
+          nb_places: number | null
+          part_mensuelle_fcfa: number | null
+          photo_chemin: string | null
+          precision_position: string | null
+          preference_genre: string | null
+          publiee_le: string | null
+          quartier_id: number | null
+          titre: string | null
+          type: Database["public"]["Enums"]["type_annonce"] | null
+          universite_proche_id: number | null
+          zone_rayon_m: number | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "annonces_publiques"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       identite_conforme: { Args: { p_uid: string }; Returns: boolean }
       identite_verifiee: { Args: { p_uid: string }; Returns: boolean }
       journaliser:
@@ -1791,6 +1891,45 @@ export type Database = {
         }[]
       }
       marquer_relance_vue: { Args: { p_id: number }; Returns: undefined }
+      mes_favoris: {
+        Args: never
+        Returns: {
+          age_max: number | null
+          age_min: number | null
+          auteur_id: string | null
+          charges_incluses: boolean | null
+          contact_appel: boolean | null
+          contact_whatsapp: boolean | null
+          description: string | null
+          disponible_le: string | null
+          distance_universite_m: number | null
+          duree_max_mois: number | null
+          duree_min_mois: number | null
+          etudiants_uniquement: boolean | null
+          id: number | null
+          latitude: number | null
+          longitude: number | null
+          loyer_total_fcfa: number | null
+          montant_charges_fcfa: number | null
+          nb_places: number | null
+          part_mensuelle_fcfa: number | null
+          photo_chemin: string | null
+          precision_position: string | null
+          preference_genre: string | null
+          publiee_le: string | null
+          quartier_id: number | null
+          titre: string | null
+          type: Database["public"]["Enums"]["type_annonce"] | null
+          universite_proche_id: number | null
+          zone_rayon_m: number | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "annonces_publiques"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       mes_preferences_admin: {
         Args: never
         Returns: {
@@ -1913,6 +2052,33 @@ export type Database = {
       rang_role: {
         Args: { p_role: Database["public"]["Enums"]["role_utilisateur"] }
         Returns: number
+      }
+      rechercher_annonces: {
+        Args: {
+          p_curseur?: Json
+          p_filtres?: Json
+          p_limite?: number
+          p_tri?: string
+        }
+        Returns: {
+          curseur_valeur: string
+          disponible_le: string
+          distance_ref_m: number
+          distance_universite_m: number
+          id: number
+          latitude: number
+          longitude: number
+          loyer_total_fcfa: number
+          nb_places: number
+          part_mensuelle_fcfa: number
+          photo_chemin: string
+          publiee_le: string
+          quartier_id: number
+          titre: string
+          type: string
+          universite_proche_id: number
+          zone_rayon_m: number
+        }[]
       }
       refuser_annonce: {
         Args: { p_id: number; p_motif: string }
