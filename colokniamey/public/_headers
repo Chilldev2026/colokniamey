@@ -1,10 +1,9 @@
 # En-têtes de sécurité (RGP02, RGP07), au format Netlify / Cloudflare Pages.
-# À finaliser en F1 avec l'adresse Supabase réelle et l'hébergeur retenu.
+# Finalisé en F1 : hébergeur Cloudflare Pages (voir docs/deploiement.md), projet Supabase ltwotymheaverxdruqud.
 # Turnstile (M2, RGP19) : script et cadre de challenges.cloudflare.com, seul service tiers à déclarer dans la politique.
-# Remplacer <PROJET> par la référence du projet Supabase.
 /*
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org https://<PROJET>.supabase.co; font-src 'self'; connect-src 'self' https://<PROJET>.supabase.co wss://<PROJET>.supabase.co; worker-src 'self'; frame-src https://challenges.cloudflare.com; manifest-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org https://ltwotymheaverxdruqud.supabase.co; font-src 'self'; connect-src 'self' https://ltwotymheaverxdruqud.supabase.co wss://ltwotymheaverxdruqud.supabase.co; worker-src 'self'; frame-src https://challenges.cloudflare.com; manifest-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(self), geolocation=(self), microphone=(), payment=()
   X-Content-Type-Options: nosniff

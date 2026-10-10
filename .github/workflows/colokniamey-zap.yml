@@ -1,0 +1,26 @@
+# Analyse de sécurité de base OWASP ZAP sur l'adresse de production de ColokNiamey (F1, RGP16).
+# À lancer à la main après le déploiement : Actions → « ColokNiamey - Analyse OWASP ZAP » → Run workflow, en donnant l'adresse du site.
+# Le rapport HTML est téléchargeable dans les « Artifacts » du lancement : il sert de pièce pour le mémoire.
+# L'analyse « baseline » est passive : elle regarde les en-têtes, les cookies et les fichiers servis, sans attaquer l'application.
+name: ColokNiamey - Analyse OWASP ZAP
+
+on:
+  workflow_dispatch:
+    inputs:
+      adresse:
+        description: Adresse du site en production (https://...)
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  zap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: ${{ inputs.adresse }}
+          fail_action: false
+          allow_issue_writing: false
+          artifact_name: rapport-zap

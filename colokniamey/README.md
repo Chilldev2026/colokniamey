@@ -1,70 +1,31 @@
-# colokniamey
+# ColokNiamey
 
-This template should help get you started developing with Vue 3 in Vite.
+Application web progressive (PWA) qui met en relation les étudiants pour la colocation à Niamey (Niger). Projet de fin de cycle (Licence professionnelle en génie logiciel, IAT).
 
-## Recommended IDE Setup
+**Pile** : Vue 3 + TypeScript, Vite, Pinia, Vue Router, Leaflet ; **Supabase seulement** (Auth avec double authentification des admins, PostgreSQL avec RLS, Storage, Realtime, Edge Functions). Aucun serveur applicatif, coût 0 $.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Démarrer
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+copy .env.example .env      # puis renseigne les trois variables VITE_* (voir docs/securite/configuration-auth.md)
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Vérifier
 
-```sh
-npm run build
-```
+| Commande | Ce qu'elle fait |
+|---|---|
+| `npm run type-check` | types TypeScript (strict, aucun `any`) |
+| `npm run lint` | oxlint + eslint |
+| `npx vitest run` | tests de l'interface et parcours complet avec un client Supabase simulé |
+| `npm run test:sql` | rejoue tous les scripts SQL de `supabase/tests` (RLS de chaque module, quotas, audit de sécurité) sur le projet lié ; chaque script est annulé à la fin |
+| `npm run test:attaques` | tente des attaques avec la seule clé publique (voir l'en-tête de `scripts/attaques.mjs`) |
+| `npm run build` | construit le site dans `dist` |
+| `npm run sauvegarde` | sauvegarde chiffrée (voir `docs/securite/sauvegarde.md`) |
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Organisation
 
-```sh
-npm run test:unit
-```
+Chaque module est indépendant : `src/modules/<module>/` (`index.ts` = contrat public, `services/` = seul endroit qui appelle Supabase) et ses migrations dans `supabase/migrations/`. La liste des modules actifs est dans `src/app/modules.ts`. Les modules optionnels se branchent sur les pages des autres par des points d'extension (`src/core/extensions.ts`).
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Les règles de gestion, la sécurité et la charte graphique sont décrites dans `CLAUDE.md`. Documentation par module : `docs/securite/`. Tests et preuves pour le mémoire : `docs/tests/`. Mise en ligne : `docs/deploiement.md`. Incident de sécurité : `docs/securite/incident.md`.

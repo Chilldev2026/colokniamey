@@ -1,0 +1,16 @@
+# Dependabot (RGP27) : propose chaque semaine les mises à jour de sécurité et de version des dépendances npm
+# de ColokNiamey et des actions GitHub. Le dépôt contient plusieurs projets : seul colokniamey/ est surveillé ici.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /colokniamey
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      outils-de-developpement:
+        dependency-type: development
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

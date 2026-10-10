@@ -40,3 +40,6 @@ __screenshots__/
 
 #env
 .env
+# Sauvegardes locales éventuelles : ne jamais les versionner (RGP13)
+sauvegardes*/
+*.chiffre

@@ -1,0 +1,2 @@
+# Application monopage : toute route inconnue renvoie index.html (le routeur Vue prend le relais)
+/*  /index.html  200

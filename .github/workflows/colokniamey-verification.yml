@@ -1,0 +1,49 @@
+# Vérifications automatiques de ColokNiamey à chaque envoi (F1, RGP05, RGP16, RGP27) :
+# types, lint, tests, construction, faille élevée dans les dépendances, secrets dans le dépôt.
+# Les tests SQL et les tests d'attaque (npm run test:sql, npm run test:attaques) s'exécutent à la main sur le projet lié :
+# ils ont besoin d'un accès à Supabase qu'on ne confie pas à un robot.
+# Le dépôt contient plusieurs projets : le travail se fait dans le dossier colokniamey/.
+name: ColokNiamey - Vérifications
+
+on:
+  push:
+    branches: [main]
+    paths: ['colokniamey/**', '.github/workflows/colokniamey-verification.yml']
+  pull_request:
+    paths: ['colokniamey/**']
+
+permissions:
+  contents: read
+
+jobs:
+  qualite:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: colokniamey
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: colokniamey/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run type-check
+      - run: npx oxlint .
+      - run: npx eslint src
+      - run: npx vitest run
+      - run: npm run build-only
+      # RGP27 : aucune faille élevée dans les dépendances de production
+      - run: npm audit --omit=dev --audit-level=high
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # RGP05, RGP16 : recherche de clés et de mots de passe dans tout l'historique
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
