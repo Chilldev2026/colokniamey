@@ -44,6 +44,6 @@ jobs:
         with:
           fetch-depth: 0
       # RGP05, RGP16 : recherche de clés et de mots de passe dans tout l'historique
-      - uses: gitleaks/gitleaks-action@v2
+      - uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
