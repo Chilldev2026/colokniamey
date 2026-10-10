@@ -130,7 +130,9 @@ Chaque module contient : `index.ts` (son contrat public : routes, menu, API), `r
 - [x] M8 Groupes de colocation
 - [x] M7 Signalements (avec le volet signalements d'A3)
 - [~] F1 Livraison du noyau : tout ce qui est automatisable est fait (tests, audit, attaques, sauvegarde, configuration d'hébergement) ; reste à faire par l'auteur : déploiement, essais sur téléphones, sauvegarde et restauration réelles (voir docs/deploiement.md)
-- [ ] Phase 2 : A1, A6, A4, F2 (seulement si le temps le permet)
+- [x] A1 Tableau de bord et statistiques (phase 2)
+- [x] A6 Audit, erreurs et supervision (phase 2)
+- [ ] Phase 2 restante : A4 communiqués, F2 finalisation
 
 ## Rôles
 `etudiant`, `proprietaire`, `admin`, `super_admin`. Une inscription ne peut créer qu'un `etudiant` ou un `proprietaire`. Le premier super-admin est créé par script SQL.

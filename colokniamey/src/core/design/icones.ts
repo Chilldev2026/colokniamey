@@ -26,6 +26,14 @@ import {
   BadgeCheck,
   IdCard,
   Camera,
+  LayoutDashboard,
+  FileText,
+  Eye,
+  Activity,
+  Bug,
+  History,
+  Flag,
+  Megaphone,
 } from 'lucide-vue-next'
 
 export const icones: Record<string, Component> = {
@@ -54,6 +62,14 @@ export const icones: Record<string, Component> = {
   identite: IdCard,
   badge: BadgeCheck,
   camera: Camera,
+  tableau: LayoutDashboard,
+  annonce: FileText,
+  visites: Eye,
+  supervision: Activity,
+  erreur: Bug,
+  historique: History,
+  signalement: Flag,
+  communique: Megaphone,
 }
 
 export type NomIcone = keyof typeof icones

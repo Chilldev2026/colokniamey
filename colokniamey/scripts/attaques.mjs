@@ -89,12 +89,12 @@ noter('RGP04', 'suppression de profils par un visiteur', 'refusée (4xx)', Strin
 const internes = [
   'journaliser', 'notifier', 'verifier_texte', 'normaliser_texte', 'consommer_quota', 'alertes_files', 'taches_planifiees', 'anonymiser_compte',
   'admin_action_suspendre', 'kyc_enregistrer_image', 'kyc_images_a_effacer', 'kyc_preparer_depot', 'cloturer_groupes_inactifs',
-  'exporter_donnees_profils', 'declencher_recapitulatif', 'identite_conforme', 'exiger_identite_verifiee', 'mettre_a_jour_groupe',
+  'exporter_donnees_profils', 'declencher_recapitulatif', 'identite_conforme', 'exiger_identite_verifiee', 'mettre_a_jour_groupe', 'verifier_seuils', 'agreger_visites', 'agreger_mesures', 'purger_erreurs',
 ]
 const connectes = [
   'valider_annonce', 'decider_kyc', 'decider_photo', 'definir_maintenance', 'modifier_parametre', 'valider_terme', 'liste_utilisateurs',
   'liste_signalements', 'demarrer_conversation', 'creer_groupe', 'soumettre_annonce', 'contact_annonce', 'exporter_mes_donnees', 'signaler',
-  'mon_kyc', 'liste_conversations', 'mes_favoris', 'position_annonce',
+  'mon_kyc', 'liste_conversations', 'mes_favoris', 'position_annonce', 'supervision', 'stats_visites', 'liste_journal', 'definir_seuil', 'changer_statut_erreur',
 ]
 for (const nom of [...internes, ...connectes]) {
   const r = await appeler(`/rest/v1/rpc/${nom}`, { method: 'POST', headers: en({ Authorization: `Bearer ${CLE}` }), body: '{}' })

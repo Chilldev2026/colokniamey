@@ -19,12 +19,15 @@ declarerAttenteAuth(initialiserAuth())
 app.use(router)
 
 // RGA19 : erreurs envoyées sans donnée sensible
-demarrerCaptureErreurs(app, async (message, module, page, session) => {
-  await supabase.rpc('enregistrer_erreur', {
+demarrerCaptureErreurs(app, async (message, module, page, session, detail) => {
+  await supabase.rpc('enregistrer_erreur_detail', {
     p_message: message,
     p_module: module,
     p_page: page,
     p_session: session,
+    ...(detail.pile ? { p_pile: detail.pile } : {}),
+    p_navigateur: detail.navigateur,
+    p_version: detail.version,
   })
 })
 demarrerMesures()

@@ -14,6 +14,7 @@ import { useSessionAdmin } from '../composables/useSessionAdmin'
 import type { EntreeMenuCalculee } from '../types'
 import AvertissementInactivite from './AvertissementInactivite.vue'
 import BandeauMfa from './BandeauMfa.vue'
+import BandeauSupervision from './BandeauSupervision.vue'
 import BandeauRelance from './BandeauRelance.vue'
 import PanneauNotifications from './PanneauNotifications.vue'
 
@@ -132,6 +133,7 @@ async function seDeconnecter() {
       <main class="contenu">
         <BandeauRelance />
         <BandeauMfa />
+        <BandeauSupervision />
         <RouterView v-slot="{ Component }">
           <Transition :name="`page-${direction}`" mode="out-in">
             <component :is="Component" :key="route.path" />

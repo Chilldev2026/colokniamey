@@ -21,3 +21,6 @@ interface Navigator {
   // Propriété propre à Safari sur iPhone : vrai si l'app est lancée depuis l'écran d'accueil
   standalone?: boolean
 }
+
+/** Date de construction, injectée par vite.config.ts (A6). */
+declare const __VERSION_APP__: string | undefined

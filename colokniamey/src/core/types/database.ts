@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      alertes_supervision: {
+        Row: {
+          active: boolean
+          depuis: string | null
+          notifiee_le: string | null
+          type: string
+          valeur: number | null
+        }
+        Insert: {
+          active?: boolean
+          depuis?: string | null
+          notifiee_le?: string | null
+          type: string
+          valeur?: number | null
+        }
+        Update: {
+          active?: boolean
+          depuis?: string | null
+          notifiee_le?: string | null
+          type?: string
+          valeur?: number | null
+        }
+        Relationships: []
+      }
       annonce_equipements: {
         Row: {
           annonce_id: number
@@ -336,10 +360,13 @@ export type Database = {
           id: number
           message: string
           module: string | null
+          navigateur: string | null
           occurrences: number
           page: string | null
+          pile: string | null
           premiere_vue: string
           statut: string
+          version: string | null
         }
         Insert: {
           derniere_vue?: string
@@ -347,10 +374,13 @@ export type Database = {
           id?: never
           message: string
           module?: string | null
+          navigateur?: string | null
           occurrences?: number
           page?: string | null
+          pile?: string | null
           premiere_vue?: string
           statut?: string
+          version?: string | null
         }
         Update: {
           derniere_vue?: string
@@ -358,10 +388,13 @@ export type Database = {
           id?: never
           message?: string
           module?: string | null
+          navigateur?: string | null
           occurrences?: number
           page?: string | null
+          pile?: string | null
           premiere_vue?: string
           statut?: string
+          version?: string | null
         }
         Relationships: []
       }
@@ -670,6 +703,36 @@ export type Database = {
           operation?: string
           session_id?: string
           succes?: boolean
+        }
+        Relationships: []
+      }
+      mesures_par_heure: {
+        Row: {
+          erreurs: number
+          heure: string
+          module: string
+          p50_ms: number | null
+          p95_ms: number | null
+          p99_ms: number | null
+          requetes: number
+        }
+        Insert: {
+          erreurs: number
+          heure: string
+          module: string
+          p50_ms?: number | null
+          p95_ms?: number | null
+          p99_ms?: number | null
+          requetes: number
+        }
+        Update: {
+          erreurs?: number
+          heure?: string
+          module?: string
+          p50_ms?: number | null
+          p95_ms?: number | null
+          p99_ms?: number | null
+          requetes?: number
         }
         Relationships: []
       }
@@ -1124,6 +1187,24 @@ export type Database = {
         }
         Relationships: []
       }
+      seuils_supervision: {
+        Row: {
+          cle: string
+          modifie_le: string
+          valeur: number
+        }
+        Insert: {
+          cle: string
+          modifie_le?: string
+          valeur: number
+        }
+        Update: {
+          cle?: string
+          modifie_le?: string
+          valeur?: number
+        }
+        Relationships: []
+      }
       signalements: {
         Row: {
           auteur_id: string
@@ -1494,6 +1575,45 @@ export type Database = {
         }
         Relationships: []
       }
+      visites_detail_par_jour: {
+        Row: {
+          appareil: string
+          chemin: string
+          jour: string
+          visites: number
+        }
+        Insert: {
+          appareil: string
+          chemin: string
+          jour: string
+          visites: number
+        }
+        Update: {
+          appareil?: string
+          chemin?: string
+          jour?: string
+          visites?: number
+        }
+        Relationships: []
+      }
+      visites_par_jour: {
+        Row: {
+          jour: string
+          sessions: number
+          visites: number
+        }
+        Insert: {
+          jour: string
+          sessions: number
+          visites: number
+        }
+        Update: {
+          jour?: string
+          sessions?: number
+          visites?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       annonces_publiques: {
@@ -1767,7 +1887,17 @@ export type Database = {
         }
         Returns: undefined
       }
+      agreger_mesures: { Args: never; Returns: undefined }
+      agreger_visites: { Args: never; Returns: undefined }
       alertes_files: { Args: never; Returns: number }
+      alertes_supervision_actives: {
+        Args: never
+        Returns: {
+          depuis: string
+          type: string
+          valeur: number
+        }[]
+      }
       annonce_a_moderer: { Args: { p_id: number }; Returns: Json }
       annonces_carte: {
         Args: { p_emprise: Json; p_filtres?: Json; p_limite?: number }
@@ -1794,7 +1924,12 @@ export type Database = {
         Returns: string
       }
       avatar_valide: { Args: { p_id: string }; Returns: string }
+      borne_jours: { Args: { p_jours: number }; Returns: number }
       capacite_groupe: { Args: { p_groupe_id: number }; Returns: number }
+      changer_statut_erreur: {
+        Args: { p_id: number; p_statut: string }
+        Returns: undefined
+      }
       cloturer_groupes_inactifs: { Args: never; Returns: number }
       cloturer_signalement: {
         Args: { p_commentaire?: string; p_decision: string; p_id: number }
@@ -1905,6 +2040,10 @@ export type Database = {
         Args: { p_alertes: boolean; p_recap: boolean }
         Returns: undefined
       }
+      definir_seuil: {
+        Args: { p_cle: string; p_valeur: number }
+        Returns: undefined
+      }
       definir_terme_actif: {
         Args: { p_actif: boolean; p_id: number }
         Returns: undefined
@@ -1958,6 +2097,18 @@ export type Database = {
         }
         Returns: undefined
       }
+      enregistrer_erreur_detail: {
+        Args: {
+          p_message: string
+          p_module: string
+          p_navigateur?: string
+          p_page: string
+          p_pile?: string
+          p_session: string
+          p_version?: string
+        }
+        Returns: undefined
+      }
       enregistrer_mesures: {
         Args: { p_lot: Json; p_session: string }
         Returns: undefined
@@ -1984,6 +2135,15 @@ export type Database = {
           nombre: number
           plus_ancien: string
         }[]
+      }
+      evaluer_alerte: {
+        Args: {
+          p_depasse: boolean
+          p_titre: string
+          p_type: string
+          p_valeur: number
+        }
+        Returns: undefined
       }
       exiger_etudiant_verifie: { Args: never; Returns: undefined }
       exiger_identite_verifiee: { Args: never; Returns: undefined }
@@ -2037,6 +2197,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      filtres_journal: { Args: never; Returns: Json }
       groupes_actifs_de: { Args: { p_uid: string }; Returns: number }
       groupes_du_logement: {
         Args: { p_annonce_id: number }
@@ -2165,6 +2326,43 @@ export type Database = {
           type_piece: string
         }[]
       }
+      liste_erreurs: {
+        Args: { p_jours?: number; p_statut?: string }
+        Returns: {
+          derniere_vue: string
+          id: number
+          message: string
+          module: string
+          navigateur: string
+          occurrences: number
+          page: string
+          pile: string
+          premiere_vue: string
+          statut: string
+          version: string
+        }[]
+      }
+      liste_journal: {
+        Args: {
+          p_acteur?: string
+          p_action?: string
+          p_cible_type?: string
+          p_decalage?: number
+          p_depuis?: string
+          p_jusqua?: string
+          p_limite?: number
+        }
+        Returns: {
+          acteur_id: string
+          acteur_prenom: string
+          action: string
+          cible_id: string
+          cible_type: string
+          created_at: string
+          details: Json
+          id: number
+        }[]
+      }
       liste_parametres: {
         Args: never
         Returns: {
@@ -2207,6 +2405,13 @@ export type Database = {
           id: number
           motif: string
           vu_le: string
+        }[]
+      }
+      liste_seuils: {
+        Args: never
+        Returns: {
+          cle: string
+          valeur: number
         }[]
       }
       liste_signalements: {
@@ -2451,6 +2656,7 @@ export type Database = {
         }
         Returns: number
       }
+      purger_erreurs: { Args: never; Returns: undefined }
       quitter_groupe: { Args: { p_groupe_id: number }; Returns: undefined }
       quota_anonyme: {
         Args: { p_action: string; p_session: string }
@@ -2529,6 +2735,12 @@ export type Database = {
       signaler_activite_admin: { Args: never; Returns: undefined }
       soumettre_annonce: { Args: { p_annonce_id: number }; Returns: string }
       soumettre_kyc: { Args: { p_type_piece: string }; Returns: undefined }
+      stats_annonces: { Args: { p_jours?: number }; Returns: Json }
+      stats_erreurs: { Args: never; Returns: Json }
+      stats_moderation: { Args: { p_jours?: number }; Returns: Json }
+      stats_utilisateurs: { Args: { p_jours?: number }; Returns: Json }
+      stats_visites: { Args: { p_jours?: number }; Returns: Json }
+      supervision: { Args: { p_periode?: string }; Returns: Json }
       taches_planifiees: { Args: never; Returns: undefined }
       valider_annonce: { Args: { p_id: number }; Returns: undefined }
       valider_terme: { Args: { p_id: number }; Returns: undefined }
@@ -2541,6 +2753,7 @@ export type Database = {
         Returns: undefined
       }
       verifier_quota: { Args: { p_action: string }; Returns: undefined }
+      verifier_seuils: { Args: never; Returns: undefined }
       verifier_texte: {
         Args: { p_contexte?: string; p_texte: string }
         Returns: Database["public"]["CompositeTypes"]["resultat_verification"]

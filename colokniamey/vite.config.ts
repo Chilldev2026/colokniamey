@@ -8,6 +8,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Version affichée dans les erreurs (A6) : la date de construction
+  define: { __VERSION_APP__: JSON.stringify(new Date().toISOString().slice(0, 10)) },
   plugins: [
     vue(),
     vueJsx(),
