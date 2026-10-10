@@ -1,6 +1,6 @@
 # Tableau règle → test → résultat
 
-Pièce pour le mémoire (F1). **Résultat obtenu** : dernière exécution complète le 10 octobre 2026 — `npm run test:sql` (15 scripts SQL sur le projet Supabase lié), `npx vitest run` (tests de l'interface et du parcours complet), `npm run test:attaques` (82 tests d'attaque avec la seule clé publique). Tous les tests listés ont réussi. « SQL » = script de `supabase/tests`, « Vitest » = fichier de `src`.
+Pièce pour le mémoire (F1). **Résultat obtenu** : dernière exécution complète le 10 octobre 2026 — `npm run test:sql` (17 scripts SQL sur le projet Supabase lié), `npx vitest run` (tests de l'interface et du parcours complet), `npm run test:attaques` (82 tests d'attaque avec la seule clé publique). Tous les tests listés ont réussi. « SQL » = script de `supabase/tests`, « Vitest » = fichier de `src`.
 
 ## Utilisateurs et contenus
 
@@ -71,6 +71,11 @@ Pièce pour le mémoire (F1). **Résultat obtenu** : dernière exécution compl�
 | RGA28 | SQL `0980_admin_moderation` | un terme proposé par un admin reste inactif ; un admin ne peut pas le valider | réussi |
 | RGA29 à RGA35 | SQL `0910_admin_utilisateurs`, `0980`, `0960`, `1020` | files inscrites, alertes, relances, aucune donnée personnelle dans les notifications | réussi |
 | RGA36 | SQL `0910_admin_utilisateurs` | session admin vérifiée par la base, 30 minutes d'inactivité | réussi |
+| RGA13 | SQL `1050_communiques` ; Vitest `communiques` | niveau, cible et période ; fin avant début refusée ; expiré et futur non affichés | réussi |
+| RGA14 | SQL `1050_communiques` ; Vitest `communiques` | un communiqué critique ne se masque pas (ni bouton, ni appel accepté) | réussi |
+| RGA28 (communiqués) | SQL `1050_communiques` | un admin ne crée, ne modifie ni ne supprime un communiqué critique | réussi |
+| RGA18, RGA19, RGA20 | SQL `1040_admin_stats_observabilite` ; Vitest `observabilite` | visites sans donnée personnelle ; erreurs groupées par empreinte, sans donnée sensible, avec statut | réussi |
+| RGA21 à RGA25 | SQL `1040_admin_stats_observabilite` | quatre indicateurs, mesures anonymes par lots, réservés au super-admin | réussi |
 
 ## Protection des données et durcissement
 
