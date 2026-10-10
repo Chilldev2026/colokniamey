@@ -41,6 +41,7 @@ async function sortir(partout: boolean) {
       <RouterLink to="/profil">Mon profil</RouterLink>
       <RouterLink to="/profil/donnees">Mes données</RouterLink>
       <RouterLink to="/profil/securite">Mot de passe et compte</RouterLink>
+      <RouterLink v-if="auth.profil.role === 'etudiant' || auth.profil.role === 'proprietaire'" to="/signalements">Mes signalements</RouterLink>
       <!-- Parcours du module K, visible seulement quand la vérification d'identité est activée (RG59) -->
       <RouterLink v-if="parametres.kyc_actif && auth.profil.role === 'etudiant'" to="/identite">Vérifier mon identité</RouterLink>
     </nav>

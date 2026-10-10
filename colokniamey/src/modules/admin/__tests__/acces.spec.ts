@@ -31,9 +31,9 @@ describe('menu de la coque (RGA26)', () => {
   it('montre au super-admin la page Administrateurs, Pilotage avant Opérations', () => {
     const menu = construireMenu(routesEnfantsAdmin, 'super_admin')
     expect(menu.map((e) => e.libelle)).toEqual([
-      'Administrateurs', 'Maintenance', 'Paramètres', 'Utilisateurs', 'Annonces', 'Photos', 'Contenus', 'Termes sensibles', 'Référentiel',
+      'Administrateurs', 'Maintenance', 'Paramètres', 'Signalements', 'Utilisateurs', 'Annonces', 'Photos', 'Contenus', 'Termes sensibles', 'Référentiel',
     ])
-    expect(menu.map((e) => e.section)).toEqual(['pilotage', 'pilotage', 'pilotage', 'operations', 'operations', 'operations', 'operations', 'operations', 'operations'])
+    expect(menu.map((e) => e.section)).toEqual(['pilotage', 'pilotage', 'pilotage', 'operations', 'operations', 'operations', 'operations', 'operations', 'operations', 'operations'])
   })
 
   it('ne construit aucun menu pour un étudiant, un propriétaire ou un visiteur', () => {
@@ -44,7 +44,7 @@ describe('menu de la coque (RGA26)', () => {
 
   it('a pour accueil la première page autorisée du menu de chaque rôle', () => {
     // L'admin arrive sur son travail (opérations) ; le super-admin sur le pilotage
-    expect(accueilAdmin(routesEnfantsAdmin, 'admin')).toBe('/admin/utilisateurs')
+    expect(accueilAdmin(routesEnfantsAdmin, 'admin')).toBe('/admin/signalements')
     expect(accueilAdmin(routesEnfantsAdmin, 'super_admin')).toBe('/admin/administrateurs')
   })
 })
@@ -52,7 +52,7 @@ describe('menu de la coque (RGA26)', () => {
 describe('gardes de route (RGA04, RGA26)', () => {
   it('renvoie un admin qui ouvre une route du super-admin vers sa file de travail, avec un message', () => {
     const decision = decider(metaAdmin('administrateurs'), '/admin/administrateurs', { role: 'admin', aal2: true })
-    expect(decision).toMatchObject({ path: '/admin/utilisateurs' })
+    expect(decision).toMatchObject({ path: '/admin/signalements' })
     expect(decision).toHaveProperty('message')
   })
 
@@ -90,7 +90,7 @@ describe('gardes de route (RGA04, RGA26)', () => {
   })
 
   it('renvoie une personne connectée qui ouvre une page de visiteur vers son espace', () => {
-    expect(decider({ visiteurSeulement: true }, '/inscription', { role: 'admin', aal2: false })).toMatchObject({ path: '/admin/utilisateurs' })
+    expect(decider({ visiteurSeulement: true }, '/inscription', { role: 'admin', aal2: false })).toMatchObject({ path: '/admin/signalements' })
     expect(decider({ visiteurSeulement: true }, '/inscription', { role: 'etudiant', aal2: false })).toEqual({ path: '/compte' })
   })
 })

@@ -1124,6 +1124,78 @@ export type Database = {
         }
         Relationships: []
       }
+      signalements: {
+        Row: {
+          auteur_id: string
+          cible_auteur_id: string | null
+          cible_id: string
+          cible_type: string
+          commentaire: string | null
+          created_at: string
+          decide_le: string | null
+          decision: string | null
+          decision_commentaire: string | null
+          id: number
+          message_contenu: string | null
+          message_le: string | null
+          motif: Database["public"]["Enums"]["motif_signalement"]
+          statut: Database["public"]["Enums"]["statut_signalement"]
+          traite_par: string | null
+          updated_at: string
+        }
+        Insert: {
+          auteur_id: string
+          cible_auteur_id?: string | null
+          cible_id: string
+          cible_type: string
+          commentaire?: string | null
+          created_at?: string
+          decide_le?: string | null
+          decision?: string | null
+          decision_commentaire?: string | null
+          id?: never
+          message_contenu?: string | null
+          message_le?: string | null
+          motif: Database["public"]["Enums"]["motif_signalement"]
+          statut?: Database["public"]["Enums"]["statut_signalement"]
+          traite_par?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auteur_id?: string
+          cible_auteur_id?: string | null
+          cible_id?: string
+          cible_type?: string
+          commentaire?: string | null
+          created_at?: string
+          decide_le?: string | null
+          decision?: string | null
+          decision_commentaire?: string | null
+          id?: never
+          message_contenu?: string | null
+          message_le?: string | null
+          motif?: Database["public"]["Enums"]["motif_signalement"]
+          statut?: Database["public"]["Enums"]["statut_signalement"]
+          traite_par?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signalements_auteur_id_fkey"
+            columns: ["auteur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signalements_cible_auteur_id_fkey"
+            columns: ["cible_auteur_id"]
+            isOneToOne: false
+            referencedRelation: "profils"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       taches_annonce: {
         Row: {
           annonce_id: number
@@ -1521,6 +1593,13 @@ export type Database = {
         }
         Relationships: []
       }
+      file_signalements: {
+        Row: {
+          nombre: number | null
+          plus_ancien: string | null
+        }
+        Relationships: []
+      }
       file_universites_a_placer: {
         Row: {
           nombre: number | null
@@ -1717,6 +1796,10 @@ export type Database = {
       avatar_valide: { Args: { p_id: string }; Returns: string }
       capacite_groupe: { Args: { p_groupe_id: number }; Returns: number }
       cloturer_groupes_inactifs: { Args: never; Returns: number }
+      cloturer_signalement: {
+        Args: { p_commentaire?: string; p_decision: string; p_id: number }
+        Returns: undefined
+      }
       compter_file: {
         Args: { p_vue: string }
         Returns: {
@@ -1737,6 +1820,10 @@ export type Database = {
       }
       compteurs_utilisateur_annonces: { Args: { p_uid: string }; Returns: Json }
       compteurs_utilisateur_identite: { Args: { p_uid: string }; Returns: Json }
+      compteurs_utilisateur_signalements: {
+        Args: { p_uid: string }
+        Returns: Json
+      }
       consentir_kyc: { Args: never; Returns: undefined }
       consommer_quota: {
         Args: {
@@ -1907,7 +1994,9 @@ export type Database = {
       exporter_donnees_profils: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_recherche: { Args: { p_uid: string }; Returns: Json }
       exporter_donnees_securite: { Args: { p_uid: string }; Returns: Json }
+      exporter_donnees_signalements: { Args: { p_uid: string }; Returns: Json }
       exporter_mes_donnees: { Args: never; Returns: Json }
+      fiche_signalement: { Args: { p_id: number }; Returns: Json }
       fiche_utilisateur: { Args: { p_id: string }; Returns: Json }
       filtrer_annonces: {
         Args: { p_filtres: Json }
@@ -2120,6 +2209,19 @@ export type Database = {
           vu_le: string
         }[]
       }
+      liste_signalements: {
+        Args: { p_motif?: string; p_statut?: string }
+        Returns: {
+          cible_type: string
+          created_at: string
+          id: number
+          motif: string
+          nb_sur_la_cible: number
+          pris_par_moi: boolean
+          pris_par_un_autre: boolean
+          statut: string
+        }[]
+      }
       liste_termes: {
         Args: never
         Returns: {
@@ -2321,6 +2423,10 @@ export type Database = {
         }[]
       }
       precontroler_photo: { Args: { p_empreinte: string }; Returns: undefined }
+      prendre_en_charge_signalement: {
+        Args: { p_id: number }
+        Returns: undefined
+      }
       profil_public: {
         Args: { p_id: string }
         Returns: {
@@ -2387,6 +2493,7 @@ export type Database = {
         Returns: undefined
       }
       rejeter_terme: { Args: { p_id: number }; Returns: undefined }
+      relacher_signalement: { Args: { p_id: number }; Returns: undefined }
       relancer_admin: {
         Args: { p_canal: string; p_cible: string; p_motif?: string }
         Returns: {
@@ -2406,6 +2513,19 @@ export type Database = {
         Returns: undefined
       }
       rouvrir_annonce: { Args: { p_annonce_id: number }; Returns: undefined }
+      signalement_ouvert: {
+        Args: { p_cible_id: string; p_cible_type: string }
+        Returns: boolean
+      }
+      signaler: {
+        Args: {
+          p_cible_id: string
+          p_cible_type: string
+          p_commentaire?: string
+          p_motif: Database["public"]["Enums"]["motif_signalement"]
+        }
+        Returns: number
+      }
       signaler_activite_admin: { Args: never; Returns: undefined }
       soumettre_annonce: { Args: { p_annonce_id: number }; Returns: string }
       soumettre_kyc: { Args: { p_type_piece: string }; Returns: undefined }
@@ -2433,6 +2553,12 @@ export type Database = {
       }
     }
     Enums: {
+      motif_signalement:
+        | "arnaque"
+        | "contenu_inapproprie"
+        | "fausse_annonce"
+        | "harcelement"
+        | "autre"
       role_utilisateur: "etudiant" | "proprietaire" | "admin" | "super_admin"
       statut_annonce:
         | "brouillon"
@@ -2444,6 +2570,7 @@ export type Database = {
       statut_groupe: "en_formation" | "complet" | "cloture"
       statut_kyc: "non_soumis" | "en_attente" | "valide" | "refuse"
       statut_membre: "en_attente" | "accepte" | "refuse" | "parti"
+      statut_signalement: "nouveau" | "en_cours" | "traite" | "rejete"
       type_annonce: "chambre" | "studio" | "appartement" | "place_colocation"
       type_piece: "cni" | "passeport"
     }
@@ -2576,6 +2703,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      motif_signalement: [
+        "arnaque",
+        "contenu_inapproprie",
+        "fausse_annonce",
+        "harcelement",
+        "autre",
+      ],
       role_utilisateur: ["etudiant", "proprietaire", "admin", "super_admin"],
       statut_annonce: [
         "brouillon",
@@ -2588,6 +2722,7 @@ export const Constants = {
       statut_groupe: ["en_formation", "complet", "cloture"],
       statut_kyc: ["non_soumis", "en_attente", "valide", "refuse"],
       statut_membre: ["en_attente", "accepte", "refuse", "parti"],
+      statut_signalement: ["nouveau", "en_cours", "traite", "rejete"],
       type_annonce: ["chambre", "studio", "appartement", "place_colocation"],
       type_piece: ["cni", "passeport"],
     },

@@ -4,6 +4,7 @@ import { identitesSousModule } from './identites'
 import { moderationSousModule } from './moderation'
 import { plateformeSousModule } from './plateforme'
 import { referentielAdminSousModule } from './referentiel'
+import { signalementsAdminSousModule } from './signalements'
 import { utilisateursSousModule } from './utilisateurs'
 import type { SousModuleAdmin } from './types'
 
@@ -11,6 +12,7 @@ export const sousModulesAdmin: SousModuleAdmin[] = [
   utilisateursSousModule,
   identitesSousModule,
   moderationSousModule,
+  signalementsAdminSousModule,
   plateformeSousModule,
   referentielAdminSousModule,
   // À venir : audit (A6), communiques (A4), tableau-de-bord (A1)

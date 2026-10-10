@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import AlerteUi from '@/core/ui/AlerteUi.vue'
 import BoutonUi from '@/core/ui/BoutonUi.vue'
 import ChargementUi from '@/core/ui/ChargementUi.vue'
+import { extensions } from '@/core/extensions'
 import { useAuthStore } from '@/modules/auth'
 import {
   envoyerMessage,
@@ -101,6 +102,10 @@ function heure(valeur: string): string {
       <li v-for="m in messages" :key="m.id" class="message" :class="{ moi: m.expediteurId === moi() }">
         <p class="texte">{{ m.contenu }}</p>
         <span class="heure">{{ heure(m.creeLe) }}<template v-if="m.expediteurId === moi() && m.luLe"> · lu</template></span>
+        <!-- Point d'extension : un module optionnel (signalements, M7) ajoute ses actions sur les messages reçus -->
+        <template v-if="m.expediteurId !== moi()">
+          <component :is="ext" v-for="(ext, i) in extensions('message-actions')" :key="i" :message-id="m.id" />
+        </template>
       </li>
     </ol>
 
